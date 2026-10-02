@@ -1,0 +1,11 @@
+activity,phase,instances,cpu_seconds,peak_rss_kib,scope
+initial-campaign,exhaustive,6912,5.725885223999995,111656,"scientific instance evaluation, excluding interpreter start and packaging"
+initial-campaign,weighted,240,3.492227169000011,112424,"scientific instance evaluation, excluding interpreter start and packaging"
+initial-campaign,scale,80,0.11744213799998882,112424,"scientific instance evaluation, excluding interpreter start and packaging"
+repaired-campaign,exhaustive,6912,5.436669855000014,111532,"scientific instance evaluation, excluding interpreter start and packaging"
+repaired-campaign,weighted,240,3.583189351000014,112300,"scientific instance evaluation, excluding interpreter start and packaging"
+repaired-campaign,scale,80,0.15593510999999616,112300,"scientific instance evaluation, excluding interpreter start and packaging"
+clean-extraction,exhaustive,6912,5.637460920000005,111664,"scientific instance evaluation, excluding interpreter start and packaging"
+clean-extraction,weighted,240,3.6038806409999795,112432,"scientific instance evaluation, excluding interpreter start and packaging"
+clean-extraction,scale,80,0.1419213430000017,112432,"scientific instance evaluation, excluding interpreter start and packaging"
+pilot,tight-family,4,0.059135976,92708,measured initial discriminating pilot; invalid nonideal control also tested

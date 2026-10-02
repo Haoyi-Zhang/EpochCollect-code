@@ -1,0 +1,51 @@
+test_bad_endpoint (test_epochs.AdmissionTests.test_bad_endpoint) ... ok
+test_boolean_duration (test_epochs.AdmissionTests.test_boolean_duration) ... ok
+test_duplicate_identity (test_epochs.AdmissionTests.test_duplicate_identity) ... ok
+test_epoch_ends_before_drain (test_epochs.AdmissionTests.test_epoch_ends_before_drain) ... ok
+test_exact_limit (test_epochs.AdmissionTests.test_exact_limit) ... ok
+test_false_saturation (test_epochs.AdmissionTests.test_false_saturation) ... ok
+test_implicit_fifo (test_epochs.AdmissionTests.test_implicit_fifo) ... ok
+test_incorrect_makespan (test_epochs.AdmissionTests.test_incorrect_makespan) ... ok
+test_missing_task (test_epochs.AdmissionTests.test_missing_task) ... ok
+test_noncanonical_noncritical_delay (test_epochs.AdmissionTests.test_noncanonical_noncritical_delay) ... ok
+test_nonideal_epoch (test_epochs.AdmissionTests.test_nonideal_epoch) ... ok
+test_nonmatching_epoch (test_epochs.AdmissionTests.test_nonmatching_epoch) ... ok
+test_oracle_limit (test_epochs.AdmissionTests.test_oracle_limit) ... ok
+test_reverse_arc (test_epochs.AdmissionTests.test_reverse_arc) ... ok
+test_setup_overlap (test_epochs.AdmissionTests.test_setup_overlap) ... ok
+test_short_service (test_epochs.AdmissionTests.test_short_service) ... ok
+test_solve_is_repeatable (test_epochs.AdmissionTests.test_solve_is_repeatable) ... ok
+test_unknown_mode (test_epochs.AdmissionTests.test_unknown_mode) ... ok
+test_valid_saturated (test_epochs.AdmissionTests.test_valid_saturated) ... ok
+test_valid_selective (test_epochs.AdmissionTests.test_valid_selective) ... ok
+test_zero_duration (test_epochs.AdmissionTests.test_zero_duration) ... ok
+test_bad_symbolic_value (test_epochs.MathematicalControls.test_bad_symbolic_value) ... ok
+test_completion_triggered_interval (test_epochs.MathematicalControls.test_completion_triggered_interval) ... ok
+test_formula_grid (test_epochs.MathematicalControls.test_formula_grid) ... ok
+test_independent_queues_are_not_a_null (test_epochs.MathematicalControls.test_independent_queues_are_not_a_null) ... ok
+test_missing_symbolic_destination (test_epochs.MathematicalControls.test_missing_symbolic_destination) ... ok
+test_symbolic_collectives (test_epochs.MathematicalControls.test_symbolic_collectives) ... ok
+test_total_order_null (test_epochs.MathematicalControls.test_total_order_null) ... ok
+test_unbounded_service_has_no_bound (test_epochs.MathematicalControls.test_unbounded_service_has_no_bound) ... ok
+test_unique_pair_null (test_epochs.MathematicalControls.test_unique_pair_null) ... ok
+test_unit_expansion (test_epochs.MathematicalControls.test_unit_expansion) ... ok
+test_boolean_chunks (test_epochs.SemanticSchemaTests.test_boolean_chunks) ... ok
+test_boolean_source (test_epochs.SemanticSchemaTests.test_boolean_source) ... ok
+test_boolean_value (test_epochs.SemanticSchemaTests.test_boolean_value) ... ok
+test_foreign_symbol (test_epochs.SemanticSchemaTests.test_foreign_symbol) ... ok
+test_generic_not_applicable (test_epochs.SemanticSchemaTests.test_generic_not_applicable) ... ok
+test_missing_destination (test_epochs.SemanticSchemaTests.test_missing_destination) ... ok
+test_mixed_type_endpoints (test_epochs.SemanticSchemaTests.test_mixed_type_endpoints) ... ok
+test_negative_chunk (test_epochs.SemanticSchemaTests.test_negative_chunk) ... ok
+test_null_semantics (test_epochs.SemanticSchemaTests.test_null_semantics) ... ok
+test_out_of_range_chunk (test_epochs.SemanticSchemaTests.test_out_of_range_chunk) ... ok
+test_reduction_not_broadcast (test_epochs.SemanticSchemaTests.test_reduction_not_broadcast) ... ok
+test_symbolic_cell_budget (test_epochs.SemanticSchemaTests.test_symbolic_cell_budget) ... ok
+test_unknown_phase (test_epochs.SemanticSchemaTests.test_unknown_phase) ... ok
+test_unknown_semantics (test_epochs.SemanticSchemaTests.test_unknown_semantics) ... ok
+test_zero_chunks (test_epochs.SemanticSchemaTests.test_zero_chunks) ... ok
+
+----------------------------------------------------------------------
+Ran 46 tests in 0.473s
+
+OK
