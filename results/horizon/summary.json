@@ -1,0 +1,137 @@
+{
+  "exhaustive": {
+    "records": 6912,
+    "expected": 6912,
+    "cpu_seconds": 8.40409425099999,
+    "horizon": {
+      "completed": 6912,
+      "incomplete": 0,
+      "cpu_seconds": 0.6096621680000278,
+      "raw_candidates_completed": 49052,
+      "states_completed": 35960
+    },
+    "prefix": {
+      "completed": 6912,
+      "incomplete": 0,
+      "cpu_seconds": 0.7640312220000363,
+      "raw_candidates_completed": 120420,
+      "states_completed": 38160
+    },
+    "strict_somewhere": 24,
+    "max_ratio": "10/7",
+    "families": {
+      "enumerated-3": {
+        "cases": 1728,
+        "strict_somewhere": 0,
+        "max_ratio": "1"
+      },
+      "enumerated-4": {
+        "cases": 5184,
+        "strict_somewhere": 24,
+        "max_ratio": "10/7"
+      }
+    }
+  },
+  "weighted": {
+    "records": 240,
+    "expected": 240,
+    "cpu_seconds": 5.056203804000003,
+    "horizon": {
+      "completed": 240,
+      "incomplete": 0,
+      "cpu_seconds": 0.42818778899999366,
+      "raw_candidates_completed": 114479,
+      "states_completed": 18342
+    },
+    "prefix": {
+      "completed": 240,
+      "incomplete": 0,
+      "cpu_seconds": 1.3297548899999967,
+      "raw_candidates_completed": 422743,
+      "states_completed": 31568
+    },
+    "strict_somewhere": 54,
+    "max_ratio": "41/10",
+    "families": {
+      "allreduce": {
+        "cases": 120,
+        "strict_somewhere": 0,
+        "max_ratio": "1"
+      },
+      "broadcast": {
+        "cases": 30,
+        "strict_somewhere": 20,
+        "max_ratio": "13/9"
+      },
+      "fork": {
+        "cases": 15,
+        "strict_somewhere": 12,
+        "max_ratio": "41/10"
+      },
+      "pair-exchange": {
+        "cases": 20,
+        "strict_somewhere": 0,
+        "max_ratio": "1"
+      },
+      "random-dag": {
+        "cases": 40,
+        "strict_somewhere": 17,
+        "max_ratio": "23/19"
+      },
+      "total-chain": {
+        "cases": 10,
+        "strict_somewhere": 0,
+        "max_ratio": "1"
+      },
+      "unit-fork": {
+        "cases": 5,
+        "strict_somewhere": 5,
+        "max_ratio": "7/4"
+      }
+    }
+  },
+  "oracle": {
+    "records": 48,
+    "expected": 48,
+    "cpu_seconds": 1.0254652719999986,
+    "horizon": {
+      "completed": 48,
+      "incomplete": 0,
+      "cpu_seconds": 0.016152069999999297,
+      "raw_candidates_completed": 2558,
+      "states_completed": 778
+    },
+    "prefix": {
+      "completed": 48,
+      "incomplete": 0,
+      "cpu_seconds": 0.028671320000000167,
+      "raw_candidates_completed": 8487,
+      "states_completed": 1018
+    },
+    "assignments": 1194744
+  },
+  "stress": {
+    "records": 210,
+    "expected": 210,
+    "cpu_seconds": 36.727681386,
+    "horizon": {
+      "completed": 180,
+      "incomplete": 30,
+      "cpu_seconds": 12.096570064999982,
+      "raw_candidates_completed": 1280397,
+      "states_completed": 80494
+    },
+    "prefix": {
+      "completed": 174,
+      "incomplete": 36,
+      "cpu_seconds": 23.657814965000004,
+      "raw_candidates_completed": 2701611,
+      "states_completed": 81661
+    },
+    "jointly_completed": 174,
+    "horizon_only": 6,
+    "prefix_only": 0,
+    "both_incomplete": 30
+  },
+  "complete": true
+}

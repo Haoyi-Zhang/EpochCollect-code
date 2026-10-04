@@ -1,16 +1,40 @@
 # Reconfiguration-safe optical epochs
 
-A standalone, standard-library research artifact for selective admission versus saturation in globally drained matching epochs. It contains complete written arguments, a bounded exact planner, a separately implemented event checker, a small exhaustive assignment oracle, exact generated inputs, and raw results. It is not an optical controller or GPU collective library. The accompanying research is an internal evidence checkpoint, not a completed or submission-ready TPDS article; significance and the required literature calibration remain open.
+This standalone research artifact accompanies **Time-Preserving Admission in Drained Matching Epochs**. It implements completion-horizon admission, exact service/count frontiers, an independent event interpreter, bounded assignment oracles, static interval planning, and whole-phase deadline queries. It is an offline scheduling reference, not an optical controller or a GPU collective library.
 
-## Model
+## Result and model
 
-Each nonpreemptive positive-service task names one unordered endpoint pair. Each endpoint has at most one partner per epoch. Tasks on the same pair have input-order FIFO precedence, in addition to the supplied DAG. Admitted work completes before a uniform global reconfiguration cost is paid. Unadmitted ready work may remain queued. Sufficient storage and eventual task completion are assumptions. No buffer, GPU-kernel, optical-device, packet-forwarding, failure or production-performance claim is made.
+A task uses one **unordered** endpoint pair for a positive, nonpreemptive service time. Input order fixes the FIFO order on each pair. Supplied precedence and FIFO edges form the augmented task DAG. An epoch installs a matching, executes its admitted tasks at their earliest feasible times, and drains all of them before a globally blocking, uniform, nonnegative setup. Initial installation is free. Ready but unadmitted tasks may remain queued. Storage is reserved; there are no external releases, buffer waits, failures, task preemption, or overlapping setups.
 
-`proofs/model.md` contains the full mathematical arguments. Saturation preserves the smallest possible number of epochs, but can cost a sharp factor floor(ports/2) in completion time, even for a path of used pairs and an out-tree dependency graph. This is a narrow mathematical result; no priority claim is certified. The workload inequality and ideal-state dynamic program are standard methodology.
+Unrestricted saturation preserves minimum epoch count but can lose a factor approaching floor(n/2) in makespan, even at the same minimum count. Completion-horizon admission is different: it selects only tasks that can **finish completely** within a relative horizon. The written normal-form theorem transforms any selective schedule into horizon-complete batches on maximal installed matchings, with no more epochs and no later completion of any task, simultaneously for every nonnegative uniform setup cost. This does not mean that saturation preserves time, that timestamps remain identical, or that every exact-count spectrum entry survives. The nondominated service/count frontier survives.
 
-## Quick example
+The event planner optimizes **makespan**. Its count/service labels do not optimize weighted task completion or arbitrary per-task deadlines. Static interval planning optimizes worst-case makespan of a fixed batch sequence; it does not provide an adaptive scheduling policy. A whole-phase deadline query reuses an already completed exact frontier and returns the largest feasible uniform setup. The complete model, theorem proofs, counterexamples, and executable contracts are in `proofs/`.
 
-Run in this directory with Python 3.10 or newer. No third-party Python package, model API, download, GPU or solver is needed.
+## Requirements and first run
+
+Use Python 3.10 or newer. The Python implementation needs only the standard library. Linux is the evaluated platform: campaign runners use `resource` and CPU affinity. Experiments require no network, external solver, model API, GPU, or private trace. The paper's LaTeX dependencies are separate and are not needed by this repository.
+
+From this directory:
+
+```sh
+python reproduce_all.py
+```
+
+This runs **80 regression tests** and verifies both retained result sets. It does not recompute the full campaigns. The output explicitly distinguishes these actions.
+
+To recompute all numerical evidence in a separate directory:
+
+```sh
+python reproduce_all.py --full --output-dir reproduced --seconds 20
+```
+
+The wrapper executes both campaigns in bounded sequential chunks, then validates spectra, certificates, exact parameter envelopes, search outcomes, and generated tables. It writes logs beneath the requested output directory. If the finite maximum chunk count is reached, it fails rather than treating partial results as complete; an explicit rerun with the same directory resumes. Do not reuse a directory from an unrelated input set.
+
+CPU time, elapsed time, and peak memory vary between runs and are not compared as scientific invariants. The retained stress failures are work-limit outcomes; a slower host may hit its wall-time limit first and will then report a different, explicitly incomplete search. No capped search is reported as an optimum. The wrapper rejects attempts to overwrite retained evidence with fresh output.
+
+## Example
+
+The original eight-task path construction has six endpoints and five epochs in both policy optima. At unit setup, selective admission costs 16 and unrestricted saturation costs 30:
 
 ```sh
 python epochs.py inputs/example.json --rho 1 --mode selective --output example-certificate.json
@@ -19,37 +43,48 @@ python epochs.py inputs/example.json --rho 1 --mode saturated --output saturated
 python checker.py saturated-certificate.json
 ```
 
-The example has six endpoints, eight tasks, and five epochs in either optimum. Its selective makespan is 16 and its saturated makespan is 30. A successful certificate check proves canonical feasibility only; exactness comes from the recurrence proof and the finite oracle comparison, not from a hidden certificate of optimizer optimality.
+These commands use the original bounded subset reference. The newer API is illustrated by `tests/test_horizon.py`, `tests/test_robust.py`, and `tests/test_queries.py`. For example:
 
-## Full finite reproduction
-
-The campaign runner uses Linux `resource` and CPU-affinity support, one worker, and a 3 GiB address-space cap. It is deliberately bounded to at most 40 seconds per invocation, checked between frozen small instances. The observed complete run is shorter than one default chunk; no per-instance hard preemption is claimed. Use a new result directory so retained answers cannot be mistaken for recomputation.
-
-```sh
-python -m unittest discover -s tests -v
-python reproduce.py --output-dir reproduced-results --seconds 30
-python verify_results.py reproduced-results
-python make_tables.py --output-dir reproduced-results
+```python
+from queries import setup_budget
+print(setup_budget({4: 41, 6: 38}, 45))
+# Finite maximum_setup = Fraction(7, 5), attained by six epochs.
 ```
 
-When the runner prints `RESUMABLE`, repeat the same reproduction command. `COMPLETE` means the finite campaign finished, not that the entire research-paper contract passed. The verification command compares exact scientific structures while excluding CPU time, wall time, and resident memory. It interprets every retained and reproduced weighted/scale certificate again. It emits no checksum, version, commit or toolchain manifest.
+The deadline function assumes an exact, completed frontier; it cannot authenticate global optimality of arbitrary caller-supplied numbers. Certificate checking likewise establishes canonical feasibility, not optimizer optimality.
 
-The command `python generators.py` can regenerate inputs, but normal reproduction deliberately consumes the exact retained JSONL rather than relying on pseudorandom-library behavior across Python implementations. It overwrites the three named input JSONL files and the example only; preserve your original inputs when experimenting. No private cache or `paper/` directory is required.
+## Implementations and independence
 
-## Coverage and non-results
+`horizon.py` implements finite-event transitions and count/service Pareto labels. `prefix.py` enumerates Cartesian products of FIFO queue prefixes using the **same** state engine, pruning, maximal matchings, and limits. It is a controlled admission-branching ablation, not an independent oracle. A common one-matching fast path is enabled for both.
 
-There are 6,912 labeled small input encodings, not nonisomorphic DAGs: 1,728 three-task cases on all six pairs of four endpoints, and 5,184 four-task cases on a three-pair path alphabet. Fixed duration vectors are (1,2,3) and (1,3,2,4), respectively. All forward precedence encodings are enumerated and pair FIFO edges are added. The separate oracle enumerates 1,373,760 assignments, of which 48,320 are valid; both full service/epoch spectra agree on all inputs.
+`epochs.py` is the inherited ideal-subset reference (at most 16 tasks). `oracle.py` independently enumerates task-to-epoch assignments and invokes `checker.py`, whose heap-based event interpreter does not call either planner's path recurrence. The assignment oracle defaults to four tasks; the explicit larger validation passes a bound of six. The event planner defaults to a 512-task input ceiling but can still exhaust state, candidate, matching, transition, or time limits far below that size. A task ceiling is not a tractability claim.
 
-The weighted set has 240 inputs: 120 four-endpoint tree Allreduces (three shapes, one/two chunks, 20 seeds), 30 seven-endpoint two-chunk broadcasts (three shapes, ten seeds), 20 two-chunk six-pair exchange inputs, 40 random DAGs, ten total chains, 15 weighted tight constructions and five unit-expanded constructions. Generated random service values are in {1,2,4,8}; they are abstract units, not bytes, bandwidths or calibrated hardware times. Setup costs are 0,1,4,16. All 120 Allreduce and all 20 pair-exchange cases have zero exact selective-versus-saturated gain at every setup value. These null results are retained.
+`robust.py` plans at the upper corner of a rectangular service/setup uncertainty set and replays the resulting fixed batches under admissible realizations. `queries.py` implements exact whole-phase setup-budget inversion with rational thresholds. Integer certificate data require explicit common scaling for rational service/setup values.
 
-The 80 scale inputs have up to 64 endpoints and 95 tasks. They use explicit feasible schedules plus the proved construction lower bounds, not large-instance exhaustive optimization. Exact optimization rejects more than 16 tasks; the independent assignment oracle rejects more than four. There are 3,000 symbolic collective checks in the weighted campaign, 960 bounded-duration replays, and 46 regression tests. The validator's symbolic storage limit is 65,536 chunk/endpoint cells. Finite tests are not machine-checked general proofs or independent human review.
+## Coverage and results
 
-## Files and evidence
+The two complete labeled small domains contain 1,728 three-task and 5,184 four-task encodings, totaling **6,912**. They are not nonisomorphic graphs or all weight assignments. The original independent oracle examines **1,373,760** assignments, with **48,320** valid. A further **48** fixed five/six-task cases examine **1,194,744** assignments. All compared exact frontiers agree.
 
-- `epochs.py`, `checker.py`, `oracle.py`: independent implementation paths as described above; the assignment oracle shares the independent checker semantics, not the planner's recurrence.
-- `generators.py`, `inputs/`: frozen selection and exact consumed data; `reproduce.py` evaluates all five baselines at equal inputs.
-- `results/`: raw rows, 320 certificate packets, derived tables, and measured resource records.
-- `claim_evidence_ledger.csv`, `external_resources.csv`: scope, provenance, and maturity.
-- `proofs/model.md`, `proofs/certificate-format.md`: mathematical and executable contracts.
+Across the entire nonnegative setup range, **24 / 6,912** small encodings and **54 / 240** weighted inputs exhibit a strict saturation loss. Their maximum ratios are **10/7** and **41/10** respectively; the latter is in a deliberately adversarial construction family. All **120** weighted tree-Allreduce inputs and **20** pair-exchange inputs remain tied for all setup costs. These are important null results, not omitted observations.
 
-Written proofs are human-readable arguments prepared with substantive AI assistance. No proof assistant or independent external reviewer validated them. Authors must review all work before any external use. The source code and generated inputs are offered under the MIT license; the written scientific documentation is offered under CC BY 4.0, subject to the rights of their eventual human copyright holders. No third-party paper PDFs are redistributed. See `LICENSE` and `THIRD-PARTY-NOTICES.md`.
+The **210** larger stress inputs are 120 structured collective DAGs and 90 random DAGs. Under identical caps, Horizon completes **180**, Prefix **174**; all **174** common optima agree. Six complete only under Horizon and thirty under neither method. The largest completed instance has **192 tasks in a structured tree**; this is not a claim that arbitrary 192-task DAGs are tractable. On the common 174 cases, attempted candidates total 1,012,426 versus 2,701,611, states 67,040 versus 81,661, and observed CPU time 5.124 versus 13.611 seconds. Candidate units differ between methods, so states and measured time are reported alongside them.
+
+The inherited campaign additionally retains **80** analytical-family cases up to 64 endpoints/95 tasks, **3,000** symbolic collective checks, and **960** duration replays. Large constructed schedules rely on written optimality proofs and independently interpreted feasible certificates, not large exhaustive searches. Symbolic data coverage does not prove floating-point equivalence or runtime deadlock freedom.
+
+## Layout and data lineage
+
+- `inputs/`: exact consumed JSONL inputs, including the original sets and explicit copies used by the event campaign. Fixed selection rules are in `generators.py` and `evaluate_horizon.py`.
+- `results/`: original 7,232-row reference campaign, 320 certificate packets, legacy derived data, and resource records. These are preserved supporting evidence, not obsolete alternative claims.
+- `results/horizon/`: complete event, prefix, all-matching, independent-oracle, and stress records; exact envelopes; regenerated main-paper tables and plot data.
+- `make_tables.py` and `make_horizon_tables.py`: validated derivation of numerical tables. The latter checks input results before writing the four main-paper data products.
+- `proofs/`: complete readable mathematical arguments and certificate/uncertainty contracts.
+- `claim_evidence_ledger.csv`: claims mapped to arguments, tests, and retained data.
+- `references.bib`, `reference_catalog.csv`, `literature-comparison.md`, `external_resources.csv`: scholarly provenance, read scope, technical relationships, and rights notes. No third-party paper PDF is redistributed.
+
+A low-level resumable run uses `reproduce.py --output-dir fresh-base --seconds 20` and `evaluate_horizon.py --output-dir fresh-event --seconds 20`; repeat each until its summary says complete, then use the corresponding `verify_results.py` or `verify_horizon.py` verifier. `reproduce_all.py` is the documented one-command alternative. Input regeneration is optional and overwrites named files; ordinary reproduction consumes retained inputs rather than silently regenerating them.
+
+## Limits and rights
+
+No model is trained, so the relevant bias is selective instance design, not learned-parameter overfitting. Complete declared small domains, fixed larger families, all-setup envelopes, independent implementations, negative controls, and retained failures address that risk within the stated domain. They do not make generated inputs representative of deployed workloads.
+
+Readable proofs support the general results; finite checks test implementation consistency without proof-assistant verification. The implementation is not hardened against arbitrary hostile input or offered as production control software. Human authors must examine correctness, authorship, and current publication policies before external use. Source/generated inputs and written materials carry the licenses in `LICENSE`, subject to the rights of the eventual human copyright holders; see `THIRD-PARTY-NOTICES.md`.

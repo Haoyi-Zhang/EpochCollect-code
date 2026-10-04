@@ -3,11 +3,13 @@ from itertools import product
 from checker import checked_input, interpret, is_saturated, matching
 
 
-def spectra(raw):
+def spectra(raw, max_tasks=4):
     pairs, p, pred = checked_input(raw)
     n = len(pairs)
-    if n > 4:
-        raise ValueError('brute-force oracle is limited to four tasks')
+    if type(max_tasks) is not int or not 1 <= max_tasks <= 6:
+        raise ValueError('oracle cap must be an integer in [1,6]')
+    if n > max_tasks:
+        raise ValueError(f'brute-force oracle is limited to {max_tasks} tasks')
     output = {'selective': {}, 'saturated': {}}
     count = valid = 0
     for assignment in product(range(n), repeat=n):
