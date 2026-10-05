@@ -2,7 +2,7 @@
 
 No experiment uses a network connection or external service. CPU/RSS are
 measurements and excluded from exact scientific comparisons. This script does
-not certify research novelty, publication readiness, or general proof validity.
+not establish research novelty or general proof validity.
 """
 from __future__ import annotations
 import argparse
