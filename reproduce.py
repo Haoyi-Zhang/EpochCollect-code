@@ -5,7 +5,7 @@ otherwise run the same command again. Exact scientific results are compared to
 independent event and assignment implementations, not to stored golden answers.
 """
 from __future__ import annotations
-import argparse, csv, json, os, resource, sys, time
+import argparse, csv, json, os, sys, time
 from collections import defaultdict
 from pathlib import Path
 import checker, epochs, generators, oracle
@@ -193,6 +193,12 @@ def main():
     ap.add_argument('--output-dir', type=Path, default=RESULTS,
                     help='result directory; use a new empty directory for a clean reproduction')
     args=ap.parse_args()
+    # Only the Linux campaign CLI needs process resource controls. Pure replay,
+    # oracle checks and regression imports must not require the resource module.
+    try:
+        import resource
+    except ImportError:
+        ap.error('bounded campaign CLI requires Linux resource controls')
     RESULTS=args.output_dir.resolve()
     if not 0 < args.seconds <= 40 or args.limit < 1:
         ap.error('require 0 < seconds <= 40 and a positive instance limit')

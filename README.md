@@ -12,7 +12,7 @@ The event planner optimizes **makespan**. Its count/service labels do not optimi
 
 ## Requirements and first run
 
-Use Python 3.10 or newer. The Python implementation needs only the standard library. Linux is the evaluated platform: campaign runners use `resource` and CPU affinity. Experiments require no network, external solver, model API, GPU, or private trace. The paper's LaTeX dependencies are separate and are not needed by this repository.
+Use Python 3.10 or newer. The Python implementation needs only the standard library. Linux is the evaluated full-campaign platform: campaign entry points use `resource` and CPU affinity. Solver, regression and retained-result checks do not require those Linux controls; they can also be run on Windows. Experiments require no network, external solver, model API, GPU, or private trace. The paper's LaTeX dependencies are separate and are not needed by this repository.
 
 From this directory:
 
@@ -20,7 +20,7 @@ From this directory:
 python reproduce_all.py
 ```
 
-This runs **80 regression tests** and verifies both retained result sets. It does not recompute the full campaigns. The output explicitly distinguishes these actions.
+This runs **82 regression tests** and verifies both retained result sets. It does not recompute the full campaigns. The output explicitly distinguishes these actions. Comparing a supplied result directory with retained data does not, by itself, establish that a fresh optimization occurred.
 
 To recompute all numerical evidence in a separate directory:
 
@@ -31,6 +31,8 @@ python reproduce_all.py --full --output-dir reproduced --seconds 20
 The wrapper executes both campaigns in bounded sequential chunks, then validates spectra, certificates, exact parameter envelopes, search outcomes, and generated tables. It writes logs beneath the requested output directory. If the finite maximum chunk count is reached, it fails rather than treating partial results as complete; an explicit rerun with the same directory resumes. Do not reuse a directory from an unrelated input set.
 
 CPU time, elapsed time, and peak memory vary between runs and are not compared as scientific invariants. The retained stress failures are work-limit outcomes; a slower host may hit its wall-time limit first and will then report a different, explicitly incomplete search. No capped search is reported as an optimum. The wrapper rejects attempts to overwrite retained evidence with fresh output.
+
+The scientific workflow is prepared for a flat artifact repository on Ubuntu 24.04. It runs the full wrapper on pushes to `main` or manual dispatch, with a 900-second whole-command limit, a 3 GiB virtual-memory limit and the existing per-search/chunk limits. Failure gates remain enabled. It always attempts to upload only `scientific-output`, including the whole-run log and any partial numerical output. A configured workflow is not evidence that a hosted run has occurred.
 
 ## Example
 
@@ -62,6 +64,8 @@ The deadline function assumes an exact, completed frontier; it cannot authentica
 `robust.py` plans at the upper corner of a rectangular service/setup uncertainty set and replays the resulting fixed batches under admissible realizations. `queries.py` implements exact whole-phase setup-budget inversion with rational thresholds. Integer certificate data require explicit common scaling for rational service/setup values.
 
 ## Coverage and results
+
+The numerical counts and CPU figures below are the retained Linux-host campaign. The current regression suite adds two mocked-clock checks of the one-matching shortcut's search budget and has also been run separately on Windows; those checks do not replace or pool the historical performance measurements.
 
 The two complete labeled small domains contain 1,728 three-task and 5,184 four-task encodings, totaling **6,912**. They are not nonisomorphic graphs or all weight assignments. The original independent oracle examines **1,373,760** assignments, with **48,320** valid. A further **48** fixed five/six-task cases examine **1,194,744** assignments. All compared exact frontiers agree.
 

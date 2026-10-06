@@ -4,6 +4,7 @@ import itertools
 import random
 import unittest
 from fractions import Fraction
+from unittest.mock import patch
 
 from epochs import Exact, parse, bits, certificate
 from checker import check, check_collective
@@ -199,6 +200,36 @@ class HorizonTest(unittest.TestCase):
             Horizon(fork(3,7), Limits(matchings=1))
         with self.assertRaises(ValueError):
             Horizon(fork(3,7), Limits(seconds=-1))
+
+    def test_one_matching_shortcut_checks_elapsed_budget(self):
+        raw = {'ports': 2, 'tasks': [{'pair': [0, 1], 'p': 1}]}
+        for cls in (Horizon, Prefix):
+            with self.subTest(method=cls.__name__):
+                with patch('horizon.time.monotonic', return_value=0.0) as clock:
+                    engine = cls(raw, Limits(seconds=1))
+                    original = engine.completion_times
+                    def delayed_timetable(*args):
+                        result = original(*args)
+                        clock.return_value = 2.0
+                        return result
+                    engine.completion_times = delayed_timetable
+                    with self.assertRaisesRegex(SearchLimit, 'wall-time'):
+                        engine.solve()
+                    self.assertFalse(engine.stats['complete'])
+                    self.assertEqual(engine.frontier, {})
+                    self.assertEqual(engine.parents, {})
+
+    def test_one_matching_shortcut_includes_initialization_budget(self):
+        raw = {'ports': 2, 'tasks': [{'pair': [0, 1], 'p': 1}]}
+        for cls in (Horizon, Prefix):
+            with self.subTest(method=cls.__name__):
+                with patch('horizon.time.monotonic', return_value=0.0):
+                    engine = cls(raw, Limits(seconds=1))
+                    engine.initialization_seconds = 2.0
+                    with self.assertRaisesRegex(SearchLimit, 'wall-time'):
+                        engine.solve()
+                    self.assertFalse(engine.stats['complete'])
+                    self.assertEqual(engine.frontier, {})
 
     def test_frontier_exact_values(self):
         for seed in range(200):

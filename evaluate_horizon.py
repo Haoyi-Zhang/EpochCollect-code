@@ -12,7 +12,6 @@ import json
 import os
 from pathlib import Path
 import random
-import resource
 import time
 import checker
 import epochs
@@ -218,6 +217,12 @@ def main():
     ap.add_argument('--seconds', type=float, default=20)
     ap.add_argument('--limit', type=int, default=100000)
     args = ap.parse_args()
+    # Imports of inputs(), run_reference() and the retained-result validator do
+    # not execute a Linux campaign or claim its address-space limit.
+    try:
+        import resource
+    except ImportError:
+        ap.error('bounded campaign CLI requires Linux resource controls')
     if not 0 < args.seconds <= 30 or args.limit < 1:
         ap.error('require seconds in (0,30], limit>=1')
     if hasattr(os, 'sched_setaffinity'):

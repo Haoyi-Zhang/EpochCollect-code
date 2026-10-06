@@ -161,6 +161,8 @@ class Horizon:
         self.start_time = time.monotonic() - self.initialization_seconds
         self.stats.update(states=0, transitions=0, horizon_candidates=0, labels=0, complete=False, one_matching_fastpath=False)
         self.dp, self.parents, self.frontier = {}, {}, {}
+        if time.monotonic() - self.start_time > self.limits.seconds:
+            raise SearchLimit('wall-time limit')
         # Common exact lower-bound fast path, also used by Prefix below. When
         # every used pair is disjoint, the global weighted critical path is both
         # attainable in one epoch and a lower bound for every schedule.
@@ -168,6 +170,10 @@ class Horizon:
             if self.limits.states < 2:
                 raise SearchLimit('state limit')
             value = max(t for t in self.completion_times(0, self.matchings[0]) if t is not None)
+            # This shortcut has the same initialization-plus-search budget as
+            # the general state engine. Never mark an over-budget result exact.
+            if time.monotonic() - self.start_time > self.limits.seconds:
+                raise SearchLimit('wall-time limit')
             self.dp = {0: {0: 0}, self.full: {1: value}}
             self.parents = {(self.full, 1): (0, 0)}
             self.frontier = {1: value}

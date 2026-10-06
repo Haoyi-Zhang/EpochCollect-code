@@ -51,7 +51,9 @@ def verify(other):
     return {'status':'EXACT_SCIENTIFIC_MATCH', 'result_rows':total,
             'certificate_interpretations':checked, 'symbolic_interpretations':semantic,
             'resource_measurements_compared':False,
-            'meaning':'fresh execution agrees with retained finite results; not a general machine proof'}
+            'comparison_scope': 'retained-recheck' if other.resolve() == (ROOT/'results').resolve() else 'supplied-results',
+            'fresh_execution_established':False,
+            'meaning':'supplied finite results match retained data and certificates were replayed; comparison alone does not establish fresh optimization or a general machine proof'}
 
 def main():
     ap=argparse.ArgumentParser(description=__doc__)
