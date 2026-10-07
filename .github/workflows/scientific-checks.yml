@@ -30,6 +30,14 @@ jobs:
               --output-dir scientific-output/recomputed \
               --seconds 20 --max-chunks 20 \
             2>&1 | tee scientific-output/whole-run.log
+      - name: Independent finite checker-index regressions
+        shell: bash
+        run: |
+          set -o pipefail
+          ulimit -v 3145728
+          timeout --signal=TERM --kill-after=10s 30s \
+            python -B tests/checker_index_regression.py \
+            2>&1 | tee scientific-output/checker-index-regression.log
       - name: Retain the exact isolated raw-output directory
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

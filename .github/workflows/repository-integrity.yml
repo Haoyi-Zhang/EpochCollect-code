@@ -8,7 +8,7 @@ jobs:
     timeout-minutes: 10
     env:
       README_ENTRY: 'README.md'
-      MIN_EXPECTED_PYTHON_SOURCES: '19'
+      MIN_EXPECTED_PYTHON_SOURCES: '20'
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:

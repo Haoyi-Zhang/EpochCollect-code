@@ -20,7 +20,14 @@ From this directory:
 python reproduce_all.py
 ```
 
-This runs **82 regression tests** and verifies both retained result sets. It does not recompute the full campaigns. The output explicitly distinguishes these actions. Comparing a supplied result directory with retained data does not, by itself, establish that a fresh optimization occurred.
+This runs the retained **82-test regression suite** and verifies both retained result sets. It does not recompute the full campaigns. The output explicitly distinguishes these actions. Comparing a supplied result directory with retained data does not, by itself, establish that a fresh optimization occurred.
+
+Six additional checker-index controls run separately with
+`python -B tests/checker_index_regression.py` and explicitly in scientific CI.
+They compare independent FIFO reconstruction on 6,912 bounded encodings,
+strict admission and call-locality controls, direct half-open overlap tests,
+canonical timelines and symbolic start-capture/budget controls. These are finite
+follow-up checks, not a new reproduction or timing receipt for the retained campaign.
 
 To recompute all numerical evidence in a separate directory:
 
@@ -59,7 +66,7 @@ The deadline function assumes an exact, completed frontier; it cannot authentica
 
 `horizon.py` implements finite-event transitions and count/service Pareto labels. `prefix.py` enumerates Cartesian products of FIFO queue prefixes using the **same** state engine, pruning, maximal matchings, and limits. It is a controlled admission-branching ablation, not an independent oracle. A common one-matching fast path is enabled for both.
 
-`epochs.py` is the inherited ideal-subset reference (at most 16 tasks). `oracle.py` independently enumerates task-to-epoch assignments and invokes `checker.py`, whose heap-based event interpreter does not call either planner's path recurrence. The assignment oracle defaults to four tasks; the explicit larger validation passes a bound of six. The event planner defaults to a 512-task input ceiling but can still exhaust state, candidate, matching, transition, or time limits far below that size. A task ceiling is not a tractability claim.
+`epochs.py` is the inherited ideal-subset reference (at most 16 tasks). `oracle.py` independently enumerates task-to-epoch assignments and invokes `checker.py`, whose heap-based event interpreter does not call either planner's path recurrence. Its FIFO map is rebuilt locally from strictly validated unordered pairs on every call; it is not imported from or shared with a planner. Its separate direct endpoint-interval check groups the validated intervals by used port, retaining the same half-open overlap rule and two bucket entries per task plus linear sorting/check temporaries under the unchanged 10,000-task input cap. No timing gain or search-coverage improvement is claimed for these checker-only changes. The assignment oracle defaults to four tasks; the explicit larger validation passes a bound of six. The event planner defaults to a 512-task input ceiling but can still exhaust state, candidate, matching, transition, or time limits far below that size. A task ceiling is not a tractability claim.
 
 `robust.py` plans at the upper corner of a rectangular service/setup uncertainty set and replays the resulting fixed batches under admissible realizations. `queries.py` implements exact whole-phase setup-budget inversion with rational thresholds. Integer certificate data require explicit common scaling for rational service/setup values.
 

@@ -13,6 +13,7 @@ def checked_input(raw):
     if type(data) is not list or not 1 <= len(data) <= 10000:
         raise ValueError('invalid task count')
     ps, duration, pred = [], [], []
+    last = {}
     for i, x in enumerate(data):
         if type(x) is not dict or type(x.get('pair')) not in (list, tuple) or len(x['pair']) != 2:
             raise ValueError('invalid pair')
@@ -26,9 +27,9 @@ def checked_input(raw):
         deps = x.get('pred', [])
         if type(deps) is not list or any(type(d) is not int or not 0 <= d < i for d in deps):
             raise ValueError('not topologically indexed')
-        # Separate queue construction: inspect earlier tasks, not a planner cache.
-        prev = [j for j, q in enumerate(ps) if q == p]
-        pred.append(set(deps) | ({prev[-1]} if prev else set()))
+        # Checker-local queue construction, independent of every planner.
+        pred.append(set(deps) | ({last[p]} if p in last else set()))
+        last[p] = i
         ps.append(p)
         duration.append(x['p'])
     return ps, duration, pred
@@ -78,6 +79,18 @@ def is_saturated(ids, done, pairs, pred):
         if next_set == reached:
             return reached == done | set(ids)
         reached = next_set
+
+
+def _check_endpoint_intervals(pairs, eventmap):
+    """Direct half-open overlap check on validated task pairs and intervals."""
+    by_port = {}
+    for v, pair in enumerate(pairs):
+        for port in pair:
+            by_port.setdefault(port, []).append(eventmap[v])
+    for intervals in by_port.values():
+        intervals = sorted(intervals)
+        if any(b > c for (_, b), (c, _) in zip(intervals, intervals[1:])):
+            raise ValueError('endpoint service overlap')
 
 
 def check(raw, cert):
@@ -147,10 +160,7 @@ def check(raw, cert):
             if allocation[u] > allocation[v] or eventmap[u][1] > eventmap[v][0]:
                 raise ValueError('precedence violation')
     # Direct interval check, including tasks on the same pair.
-    for port in range(raw['ports']):
-        intervals = sorted(eventmap[v] for v in range(n) if port in pairs[v])
-        if any(b > c for (_, b), (c, _) in zip(intervals, intervals[1:])):
-            raise ValueError('endpoint service overlap')
+    _check_endpoint_intervals(pairs, eventmap)
     if type(cert.get('makespan')) is not int or cert['makespan'] != previous_end:
         raise ValueError('incorrect makespan')
     return {'valid': True, 'tasks': n, 'epochs': len(epochs), 'makespan': previous_end,
