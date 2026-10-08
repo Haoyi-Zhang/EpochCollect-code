@@ -20,7 +20,7 @@ From this directory:
 python reproduce_all.py
 ```
 
-This runs the retained **82-test regression suite** and verifies both retained result sets. It does not recompute the full campaigns. The output explicitly distinguishes these actions. Comparing a supplied result directory with retained data does not, by itself, establish that a fresh optimization occurred.
+This runs the regression suite's **82 test methods** and verifies both retained result sets. A method may enumerate multiple inputs or parameter settings; 82 is not a count of scheduling cases or counterexamples. It does not recompute the full campaigns. The output explicitly distinguishes these actions. Comparing a supplied result directory with retained data does not, by itself, establish that a fresh optimization occurred.
 
 Six additional checker-index controls run separately with
 `python -B tests/checker_index_regression.py` and explicitly in scientific CI.
