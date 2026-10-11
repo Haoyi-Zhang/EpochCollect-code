@@ -1,6 +1,6 @@
 # Scholarly comparison and citation scope
 
-The bibliography contains 27 distinct scholarly entries: 12 TPDS articles, five adjacent published conference papers, five methodological journal articles, and five explicitly versioned preprints. This partition describes the bibliography, not a numerical TPDS policy. Reference counts cannot establish novelty. The catalog records author-version versus final-publication access and distinguishes full substantive reading from selected technical passages. A DOI string, an accessible abstract, and an inspected full paper are different kinds of evidence; no blanket claim of full publisher-PDF or online DOI-endpoint verification is made.
+The bibliography covers optical-switch scheduling, collective communication, scheduling dominance, and resource-constrained optimization. These areas supply the comparisons and mathematical foundations for the model below. Published articles and preprints retain their publication identities; their device measurements are not evidence for this scheduler.
 
 The central question is whether arbitrary nonpreemptive admissions can be replaced by complete-task event thresholds on maximal matchings **without postponing any task**, after earlier completed sets have changed. Merely distinguishing service cost from setup count, choosing a holding duration, using dynamic programming, or appealing to active schedules is not the new result.
 
@@ -19,7 +19,7 @@ The manuscript contains the full specialization proof rather than inferring nove
 
 ## Identity and claim checks
 
-Each catalog row has one BibTeX key, canonical title/author spelling, year, publication identity or exact preprint revision, a scholarly address, a supported claim, and its main-paper location. The paper build requires equality of the explicitly cited keys, bibliography keys, and generated bibliography entries; it forbids blanket nocite. The count is 27, not a padded bibliography of uncited entries. The original ten references have been retained or updated only when relevant. The EJOR author is **Arno Sprecher**, not Andreas Sprecher. The GPU interconnect article's publication year is 2020 despite its 2019 DOI/author-preprint date. BandPilot's author v5 reports the 2026 TPDS issue/DOI; an unavailable final page range is left unspecified. Five preprints are visibly identified as such.
+The manuscript associates cited results with their publication records. The EJOR scheduling work is by **Arno Sprecher**. The GPU interconnect article was published in 2020; its DOI and author preprint date from 2019. BandPilot reports a 2026 TPDS issue and DOI; its unavailable final page range is left unspecified. Preprints are identified as preprints.
 
 Some public access is through author versions or a mirror of the actual paper, not a publisher landing page. No third-party PDFs, scraped paper text, or unverified redistribution licenses are bundled. The `source_read_scope` field is authoritative: neither abstracts nor selected passages are silently counted as full-paper reading. The detailed final TPDS online submission rules were not readable from the JavaScript-only page and are not asserted as verified.
 
