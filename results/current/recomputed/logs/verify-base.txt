@@ -1,0 +1,10 @@
+{
+  "status": "EXACT_SCIENTIFIC_MATCH",
+  "result_rows": 7232,
+  "certificate_interpretations": 2720,
+  "symbolic_interpretations": 1500,
+  "resource_measurements_compared": false,
+  "comparison_scope": "supplied-results",
+  "fresh_execution_established": false,
+  "meaning": "supplied finite results match retained data and certificates were replayed; comparison alone does not establish fresh optimization or a general machine proof"
+}

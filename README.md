@@ -12,7 +12,7 @@ The event planner optimizes **makespan**. Its count/service labels do not optimi
 
 ## Requirements and first run
 
-Use Python 3.10 or newer. The Python implementation needs only the standard library. Linux is the evaluated full-campaign platform: campaign entry points use `resource` and CPU affinity. Solver, regression and retained-result checks do not require those Linux controls; they can also be run on Windows. Experiments require no network, external solver, model API, GPU, or private trace. The paper's LaTeX dependencies are separate and are not needed by this repository.
+Use Python 3.10 or newer. The implementation needs only the standard library. The historical full-campaign platform is Linux, with resource and CPU-affinity controls. An explicit portable option now permits Windows with verified one-lane affinity and no claimed Linux memory cap. Solver, regression and retained-result checks need no Linux controls. Experiments require no network, external solver, model API, GPU, or private trace. The paper's LaTeX dependencies are separate.
 
 From this directory:
 
@@ -20,10 +20,11 @@ From this directory:
 python reproduce_all.py
 ```
 
-This runs the regression suite's **82 test methods** and verifies both retained result sets. A method may enumerate multiple inputs or parameter settings; 82 is not a count of scheduling cases or counterexamples. It does not recompute the full campaigns. The output explicitly distinguishes these actions. Comparing a supplied result directory with retained data does not, by itself, establish that a fresh optimization occurred.
+This runs the current default suite's **99 test methods** and verifies both retained result sets. A method may enumerate multiple inputs or parameter settings; 99 is not a count of scheduling cases or counterexamples. It does not recompute the full campaigns. Comparing supplied results with retained data does not by itself establish fresh optimization. The historical 82-method record is unchanged.
 
-Six additional checker-index controls run separately with
-`python -B tests/checker_index_regression.py` and explicitly in scientific CI.
+The six original checker-index controls are included in default discovery via
+the small test-module adapter. They can also run separately with
+`python -B tests/checker_index_regression.py`.
 They compare independent FIFO reconstruction on 6,912 bounded encodings,
 strict admission and call-locality controls, direct half-open overlap tests,
 canonical timelines and symbolic start-capture/budget controls. These are finite
@@ -35,11 +36,11 @@ To recompute all numerical evidence in a separate directory:
 python reproduce_all.py --full --output-dir reproduced --seconds 20
 ```
 
-The wrapper executes both campaigns in bounded sequential chunks, then validates spectra, certificates, exact parameter envelopes, search outcomes, and generated tables. It writes logs beneath the requested output directory. If the finite maximum chunk count is reached, it fails rather than treating partial results as complete; an explicit rerun with the same directory resumes. Do not reuse a directory from an unrelated input set.
+The wrapper requires an empty output directory, executes both campaigns in bounded sequential chunks, then validates spectra, certificates, exact envelopes, search outcomes, and generated tables. It writes logs beneath that directory and fails if its chunk allowance is exhausted. Use the low-level commands, not another full fresh invocation, to resume an explicitly matching partial campaign.
 
 CPU time, elapsed time, and peak memory vary between runs and are not compared as scientific invariants. The retained stress failures are work-limit outcomes; a slower host may hit its wall-time limit first and will then report a different, explicitly incomplete search. No capped search is reported as an optimum. The wrapper rejects attempts to overwrite retained evidence with fresh output.
 
-The scientific workflow is prepared for a flat artifact repository on Ubuntu 24.04. It runs the full wrapper on pushes to `main` or manual dispatch, with a 900-second whole-command limit, a 3 GiB virtual-memory limit and the existing per-search/chunk limits. Failure gates remain enabled. It always attempts to upload only `scientific-output`, including the whole-run log and any partial numerical output. A configured workflow is not evidence that a hosted run has occurred.
+The scientific workflow is prepared for a flat artifact repository on Ubuntu 24.04. It runs the full wrapper in normal and optimized Python on pushes to `main` or manual dispatch, with a 900-second limit per full command, a 3 GiB virtual-memory limit and the existing search/chunk limits. Failure gates remain enabled. It attempts to upload only `scientific-output`, including complete or partial raw outputs. This candidate workflow has not been executed on a hosted service.
 
 ## Example
 
@@ -93,6 +94,48 @@ The inherited campaign additionally retains **80** analytical-family cases up to
 - `references.bib`, `reference_catalog.csv`, `literature-comparison.md`, `external_resources.csv`: scholarly provenance, read scope, technical relationships, and rights notes. No third-party paper PDF is redistributed.
 
 A low-level resumable run uses `reproduce.py --output-dir fresh-base --seconds 20` and `evaluate_horizon.py --output-dir fresh-event --seconds 20`; repeat each until its summary says complete, then use the corresponding `verify_results.py` or `verify_horizon.py` verifier. `reproduce_all.py` is the documented one-command alternative. Input regeneration is optional and overwrites named files; ordinary reproduction consumes retained inputs rather than silently regenerating them.
+
+## Current controlled reproduction and full offline costs
+
+The dated `evidence/20261014/` directory keeps current raw observations separate
+from the unchanged historical `results/`. Normal and optimized full campaigns
+each recompute 7,232 original and 7,410 extension rows. Their Windows 11,
+CPython 3.12.14 receipts verify affinity to one logical processor and explicitly
+record no Linux address-space cap or RSS measurement. Current total wall times
+are 48.875 and 50.312 seconds; they are not device-speedup measurements.
+
+From the artifact root, use an empty output directory:
+
+```text
+python -B reproduce_all.py --full --portable --output-dir own-normal --seconds 20
+python -B -O reproduce_all.py --full --portable --output-dir own-optimized --seconds 20
+python -B workflow_cost.py --portable --output-dir own-workflow
+python -B verify_workflow.py own-workflow --frontiers own-normal/event/weighted.jsonl
+```
+
+On Linux omit `--portable`: the original verified affinity and 3 GiB limit stay
+enforced. On Windows the flag is explicit and does not simulate Linux controls.
+`--full` rejects nonempty directories before launching any child; low-level
+commands still permit explicit resumption. Child interpreters preserve `-O`.
+Default discovery includes the six original checker-index controls. Scientific
+agreement/formula gates are explicit failures and cannot disappear under `-O`.
+Envelope APIs require positive strict integer count/service fields; the result
+reader permits canonical JSON decimal count keys, not aliases such as `01`.
+Envelope intervals are `[lo, hi)`; the smaller-count row owns a shared breakpoint.
+
+The same-information Prefix comparator and Horizon return the same frontiers,
+four setup-cost certificates and whole-phase deadline decisions on all unchanged
+240 weighted inputs. Three alternating-order repetitions yield 720 pairs and
+1,440 stored executions per mode. Timed stages include input decoding, planning,
+reconstruction, semantic/feasibility checks, serialization and consumer replay,
+and the deadline query; file loading before the timer and benchmark logging are
+excluded. No new generated workload is introduced. Normal-mode total-time ratio
+Prefix/Horizon has median 1.162, range 0.243--12.208, with 76 faster Prefix pairs;
+optimized mode gives 1.144, 0.440--13.591, and 64 faster Prefix pairs. The independent
+consumer interprets 5,760 certificates per mode and recomputes deadline caps by
+direct rational algebra. Repeated local interpreter timings are not independent
+workload samples or GPU/network execution. All 120 Allreduce nulls and every
+stress failure remain in the evidence.
 
 ## Limits and rights
 

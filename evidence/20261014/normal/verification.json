@@ -1,0 +1,34 @@
+{
+  "retained_checks_complete": true,
+  "fresh_execution": true,
+  "scientific_comparison_complete": true,
+  "elapsed_seconds": 48.875,
+  "resource_fields_expected_to_vary": true,
+  "optimization": 0,
+  "portable_requested": true,
+  "base_environment": {
+    "platform": "Windows-11-10.0.28000-SP0",
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "executable": "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+    "optimization": 0,
+    "cpu_affinity": [
+      0
+    ],
+    "address_space_cap_bytes": null,
+    "rss_measurement": "not measured",
+    "scope": "owned offline Python scheduling, not network or GPU execution"
+  },
+  "event_environment": {
+    "platform": "Windows-11-10.0.28000-SP0",
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "executable": "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+    "optimization": 0,
+    "cpu_affinity": [
+      0
+    ],
+    "address_space_cap_bytes": null,
+    "rss_measurement": "not measured",
+    "scope": "owned offline Python scheduling, not network or GPU execution"
+  },
+  "meaning": "Completed finite reproduction, not a general proof or a venue acceptance assessment."
+}

@@ -1,0 +1,138 @@
+/opt/hostedtoolcache/Python/3.12.14/x64/bin/python -m unittest discover -s tests -v
+test_bad_endpoint (test_epochs.AdmissionTests.test_bad_endpoint) ... ok
+test_boolean_duration (test_epochs.AdmissionTests.test_boolean_duration) ... ok
+test_duplicate_identity (test_epochs.AdmissionTests.test_duplicate_identity) ... ok
+test_epoch_ends_before_drain (test_epochs.AdmissionTests.test_epoch_ends_before_drain) ... ok
+test_exact_limit (test_epochs.AdmissionTests.test_exact_limit) ... ok
+test_false_saturation (test_epochs.AdmissionTests.test_false_saturation) ... ok
+test_implicit_fifo (test_epochs.AdmissionTests.test_implicit_fifo) ... ok
+test_incorrect_makespan (test_epochs.AdmissionTests.test_incorrect_makespan) ... ok
+test_missing_task (test_epochs.AdmissionTests.test_missing_task) ... ok
+test_noncanonical_noncritical_delay (test_epochs.AdmissionTests.test_noncanonical_noncritical_delay) ... ok
+test_nonideal_epoch (test_epochs.AdmissionTests.test_nonideal_epoch) ... ok
+test_nonmatching_epoch (test_epochs.AdmissionTests.test_nonmatching_epoch) ... ok
+test_oracle_limit (test_epochs.AdmissionTests.test_oracle_limit) ... ok
+test_reverse_arc (test_epochs.AdmissionTests.test_reverse_arc) ... ok
+test_setup_overlap (test_epochs.AdmissionTests.test_setup_overlap) ... ok
+test_short_service (test_epochs.AdmissionTests.test_short_service) ... ok
+test_solve_is_repeatable (test_epochs.AdmissionTests.test_solve_is_repeatable) ... ok
+test_unknown_mode (test_epochs.AdmissionTests.test_unknown_mode) ... ok
+test_valid_saturated (test_epochs.AdmissionTests.test_valid_saturated) ... ok
+test_valid_selective (test_epochs.AdmissionTests.test_valid_selective) ... ok
+test_zero_duration (test_epochs.AdmissionTests.test_zero_duration) ... ok
+test_bad_symbolic_value (test_epochs.MathematicalControls.test_bad_symbolic_value) ... ok
+test_completion_triggered_interval (test_epochs.MathematicalControls.test_completion_triggered_interval) ... ok
+test_formula_grid (test_epochs.MathematicalControls.test_formula_grid) ... ok
+test_independent_queues_are_not_a_null (test_epochs.MathematicalControls.test_independent_queues_are_not_a_null) ... ok
+test_missing_symbolic_destination (test_epochs.MathematicalControls.test_missing_symbolic_destination) ... ok
+test_symbolic_collectives (test_epochs.MathematicalControls.test_symbolic_collectives) ... ok
+test_total_order_null (test_epochs.MathematicalControls.test_total_order_null) ... ok
+test_unbounded_service_has_no_bound (test_epochs.MathematicalControls.test_unbounded_service_has_no_bound) ... ok
+test_unique_pair_null (test_epochs.MathematicalControls.test_unique_pair_null) ... ok
+test_unit_expansion (test_epochs.MathematicalControls.test_unit_expansion) ... ok
+test_boolean_chunks (test_epochs.SemanticSchemaTests.test_boolean_chunks) ... ok
+test_boolean_source (test_epochs.SemanticSchemaTests.test_boolean_source) ... ok
+test_boolean_value (test_epochs.SemanticSchemaTests.test_boolean_value) ... ok
+test_foreign_symbol (test_epochs.SemanticSchemaTests.test_foreign_symbol) ... ok
+test_generic_not_applicable (test_epochs.SemanticSchemaTests.test_generic_not_applicable) ... ok
+test_missing_destination (test_epochs.SemanticSchemaTests.test_missing_destination) ... ok
+test_mixed_type_endpoints (test_epochs.SemanticSchemaTests.test_mixed_type_endpoints) ... ok
+test_negative_chunk (test_epochs.SemanticSchemaTests.test_negative_chunk) ... ok
+test_null_semantics (test_epochs.SemanticSchemaTests.test_null_semantics) ... ok
+test_out_of_range_chunk (test_epochs.SemanticSchemaTests.test_out_of_range_chunk) ... ok
+test_reduction_not_broadcast (test_epochs.SemanticSchemaTests.test_reduction_not_broadcast) ... ok
+test_symbolic_cell_budget (test_epochs.SemanticSchemaTests.test_symbolic_cell_budget) ... ok
+test_unknown_phase (test_epochs.SemanticSchemaTests.test_unknown_phase) ... ok
+test_unknown_semantics (test_epochs.SemanticSchemaTests.test_unknown_semantics) ... ok
+test_zero_chunks (test_epochs.SemanticSchemaTests.test_zero_chunks) ... ok
+test_aggregate_demands_do_not_determine_price (test_horizon.HorizonTest.test_aggregate_demands_do_not_determine_price) ... ok
+test_all_small_legal_schedules_normalize_taskwise (test_horizon.HorizonTest.test_all_small_legal_schedules_normalize_taskwise) ... ok
+test_bad_input_is_rejected (test_horizon.HorizonTest.test_bad_input_is_rejected) ... ok
+test_constructed_tight_family (test_horizon.HorizonTest.test_constructed_tight_family) ... ok
+test_equal_makespan_labels_do_not_encode_regular_objectives (test_horizon.HorizonTest.test_equal_makespan_labels_do_not_encode_regular_objectives) ... ok
+test_exact_count_spectra_need_not_survive (test_horizon.HorizonTest.test_exact_count_spectra_need_not_survive) ... ok
+test_frontier_exact_values (test_horizon.HorizonTest.test_frontier_exact_values) ... ok
+test_full_spectra_reference_random (test_horizon.HorizonTest.test_full_spectra_reference_random) ... ok
+test_limits_do_not_report_optimality (test_horizon.HorizonTest.test_limits_do_not_report_optimality) ... ok
+test_local_event_dominance (test_horizon.HorizonTest.test_local_event_dominance) ... ok
+test_matchings_all_graphs_on_four_endpoints (test_horizon.HorizonTest.test_matchings_all_graphs_on_four_endpoints) ... ok
+test_maximal_against_all_matchings (test_horizon.HorizonTest.test_maximal_against_all_matchings) ... ok
+test_maximal_saturation_is_not_dominant (test_horizon.HorizonTest.test_maximal_saturation_is_not_dominant) ... ok
+test_no_admission_of_straddling_task (test_horizon.HorizonTest.test_no_admission_of_straddling_task) ... ok
+test_one_matching_shortcut_checks_elapsed_budget (test_horizon.HorizonTest.test_one_matching_shortcut_checks_elapsed_budget) ... ok
+test_one_matching_shortcut_includes_initialization_budget (test_horizon.HorizonTest.test_one_matching_shortcut_includes_initialization_budget) ... ok
+test_oracle_cap_is_explicit (test_horizon.HorizonTest.test_oracle_cap_is_explicit) ... ok
+test_positive_horizons_not_idempotent (test_horizon.HorizonTest.test_positive_horizons_not_idempotent) ... ok
+test_prefix_baseline (test_horizon.HorizonTest.test_prefix_baseline) ... ok
+test_prefix_dominance (test_horizon.HorizonTest.test_prefix_dominance) ... ok
+test_random_graph_matchings (test_horizon.HorizonTest.test_random_graph_matchings) ... ok
+test_relabel_and_scaling (test_horizon.HorizonTest.test_relabel_and_scaling) ... ok
+test_repeated_solve_resets (test_horizon.HorizonTest.test_repeated_solve_resets) ... ok
+test_semantic_collectives (test_horizon.HorizonTest.test_semantic_collectives) ... ok
+test_topology_dependent_setup_breaks_maximal_matching_dominance (test_horizon.HorizonTest.test_topology_dependent_setup_breaks_maximal_matching_dominance) ... ok
+test_verifier_rejects_tampered_frontier (test_horizon.HorizonTest.test_verifier_rejects_tampered_frontier) ... ok
+test_bad_query_is_rejected (test_queries.DeadlineQueryTest.test_bad_query_is_rejected) ... ok
+test_direct_finite_frontier_queries (test_queries.DeadlineQueryTest.test_direct_finite_frontier_queries) ... ok
+test_equal_count_family_setup_budget_gap (test_queries.DeadlineQueryTest.test_equal_count_family_setup_budget_gap) ... ok
+test_retained_broadcast_exact_thresholds (test_queries.DeadlineQueryTest.test_retained_broadcast_exact_thresholds) ... ok
+test_unbounded_zero_and_infeasible (test_queries.DeadlineQueryTest.test_unbounded_zero_and_infeasible) ... ok
+test_bounded_overestimate_against_clairvoyant_optimum (test_robust.RobustTest.test_bounded_overestimate_against_clairvoyant_optimum) ... ok
+test_box_guarantee_is_not_taskwise_realization_dominance (test_robust.RobustTest.test_box_guarantee_is_not_taskwise_realization_dominance) ... ok
+test_box_minimax_against_independent_corner_enumeration (test_robust.RobustTest.test_box_minimax_against_independent_corner_enumeration) ... ok
+test_invalid_or_tampered_boxes_are_rejected (test_robust.RobustTest.test_invalid_or_tampered_boxes_are_rejected) ... ok
+test_stored_interval_structure_is_checked_on_replay (test_robust.RobustTest.test_stored_interval_structure_is_checked_on_replay) ... ok
+
+----------------------------------------------------------------------
+Ran 82 tests in 1.483s
+
+OK
+/opt/hostedtoolcache/Python/3.12.14/x64/bin/python verify_results.py results
+{
+  "status": "EXACT_SCIENTIFIC_MATCH",
+  "result_rows": 7232,
+  "certificate_interpretations": 2720,
+  "symbolic_interpretations": 1500,
+  "resource_measurements_compared": false,
+  "comparison_scope": "retained-recheck",
+  "fresh_execution_established": false,
+  "meaning": "supplied finite results match retained data and certificates were replayed; comparison alone does not establish fresh optimization or a general machine proof"
+}
+/opt/hostedtoolcache/Python/3.12.14/x64/bin/python verify_horizon.py results/horizon
+{
+  "exhaustive": {
+    "records": 6912,
+    "validated": true,
+    "fresh_agreement": false
+  },
+  "weighted": {
+    "records": 240,
+    "validated": true,
+    "fresh_agreement": false
+  },
+  "oracle": {
+    "records": 48,
+    "validated": true,
+    "fresh_agreement": false
+  },
+  "stress": {
+    "records": 210,
+    "validated": true,
+    "fresh_agreement": false
+  }
+}
+/opt/hostedtoolcache/Python/3.12.14/x64/bin/python reproduce.py --output-dir /home/runner/work/EpochCollect/EpochCollect/scientific-output/recomputed/base --seconds 20
+/opt/hostedtoolcache/Python/3.12.14/x64/bin/python evaluate_horizon.py --output-dir /home/runner/work/EpochCollect/EpochCollect/scientific-output/recomputed/event --seconds 20
+/opt/hostedtoolcache/Python/3.12.14/x64/bin/python evaluate_horizon.py --output-dir /home/runner/work/EpochCollect/EpochCollect/scientific-output/recomputed/event --seconds 20
+/opt/hostedtoolcache/Python/3.12.14/x64/bin/python evaluate_horizon.py --output-dir /home/runner/work/EpochCollect/EpochCollect/scientific-output/recomputed/event --seconds 20
+/opt/hostedtoolcache/Python/3.12.14/x64/bin/python verify_results.py /home/runner/work/EpochCollect/EpochCollect/scientific-output/recomputed/base
+/opt/hostedtoolcache/Python/3.12.14/x64/bin/python verify_horizon.py /home/runner/work/EpochCollect/EpochCollect/scientific-output/recomputed/event --against results/horizon
+/opt/hostedtoolcache/Python/3.12.14/x64/bin/python make_tables.py --output-dir /home/runner/work/EpochCollect/EpochCollect/scientific-output/recomputed/base
+/opt/hostedtoolcache/Python/3.12.14/x64/bin/python make_horizon_tables.py --results /home/runner/work/EpochCollect/EpochCollect/scientific-output/recomputed/event
+{
+  "retained_checks_complete": true,
+  "fresh_execution": true,
+  "scientific_comparison_complete": true,
+  "elapsed_seconds": 68.57562811700001,
+  "resource_fields_expected_to_vary": true,
+  "meaning": "Completed finite reproduction, not a general proof or a venue acceptance assessment."
+}

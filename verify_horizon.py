@@ -32,7 +32,20 @@ def engine(record, n):
         return None
     if record.get('status') != 'complete' or not record.get('stats', {}).get('complete'):
         raise ValueError('invalid completion status')
-    sp = {int(k): v for k, v in record['frontier'].items()}
+    supplied = record.get('frontier')
+    if not isinstance(supplied, dict):
+        raise ValueError('invalid count key mapping')
+    sp = {}
+    for key, value in supplied.items():
+        if type(key) is int and key > 0:
+            count = key
+        elif type(key) is str and key.isascii() and key.isdecimal() and key != '0' and not key.startswith('0'):
+            count = int(key)
+        else:
+            raise ValueError('invalid count key: require an integer or its canonical JSON spelling')
+        if count in sp:
+            raise ValueError('duplicate count key')
+        sp[count] = value
     if not sp or any(not 1 <= k <= n or type(v) is not int or v <= 0 for k,v in sp.items()):
         raise ValueError('invalid count/service frontier')
     if pareto(sp) != sp:

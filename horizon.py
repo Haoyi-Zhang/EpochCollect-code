@@ -269,9 +269,12 @@ def envelope(spectrum: dict[int, int]) -> list[dict]:
     Pairwise rational intersections provide an intentionally simple reference
     computation. Nondominated count labels number at most N.
     """
-    items = sorted(pareto({int(k): v for k, v in spectrum.items()}).items())
-    if not items:
-        raise ValueError('empty spectrum')
+    if not isinstance(spectrum, dict) or not spectrum:
+        raise ValueError('spectrum must be a nonempty integer mapping')
+    if any(type(k) is not int or k < 1 or type(b) is not int or b < 1
+           for k, b in spectrum.items()):
+        raise ValueError('positive integer count/service required')
+    items = sorted(pareto(spectrum).items())
     points = {Fraction(0)}
     for i, (k, b) in enumerate(items):
         for l, a in items[i + 1:]:

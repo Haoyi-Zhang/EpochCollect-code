@@ -1,0 +1,1 @@
+{"weighted_rows": 240, "paired_stress_rows": 174, "broadcast_case": "weighted0040"}

@@ -1,0 +1,69 @@
+{
+  "environment": {
+    "platform": "Windows-11-10.0.28000-SP0",
+    "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+    "executable": "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+    "optimization": 1,
+    "cpu_affinity": [
+      0
+    ],
+    "address_space_cap_bytes": null,
+    "rss_measurement": "not measured",
+    "scope": "owned offline Python scheduling, not network or GPU execution"
+  },
+  "records": 1440,
+  "paired_runs": 720,
+  "inputs": 240,
+  "repetitions": 3,
+  "order": "alternating per case/repetition; no warmup",
+  "agreement": true,
+  "prefix_over_horizon_total": {
+    "median": 1.1440828885647965,
+    "minimum": 0.4395831820492339,
+    "maximum": 13.591083734829542,
+    "prefix_faster_pairs": 64
+  },
+  "methods": {
+    "Horizon": {
+      "input_decode": 9126600,
+      "initialize_and_solve": 959857400,
+      "reconstruct": 36443900,
+      "validate": 354097200,
+      "serialize_decode_replay": 402105100,
+      "deadline_query": 4443400,
+      "total": 1766073600,
+      "cpu_total": 1828125000
+    },
+    "Prefix": {
+      "input_decode": 8813300,
+      "initialize_and_solve": 2889235000,
+      "reconstruct": 46819400,
+      "validate": 355683800,
+      "serialize_decode_replay": 407072100,
+      "deadline_query": 4895500,
+      "total": 3712519100,
+      "cpu_total": 3484375000
+    }
+  },
+  "source_sha256": {
+    "campaign_environment.py": "85a22c05c6551dba396d4ab2f57e4b32556416fb6764d556622a12f9ed485b6a",
+    "checker.py": "8abf3cf296126711465ac198dbf91d7ba4de2f7744332ef59df20c2b91c19203",
+    "epochs.py": "378d7ac75373cd5bcfe6d2139bf27f070b1ab939e2251507c319b731901ae66f",
+    "evaluate_horizon.py": "20cc2c54a64f4f4fcd9921ceed69f263ef9c53833cd196ee217b48ac8ef4a7bc",
+    "generators.py": "6e4ce4d650e9bbbfbddab7c3858030d1049befbdaace4548a0256195829b5fa4",
+    "horizon.py": "d4e51421c1242b10a2a9cf14fa8ddb2dfc1d794908a7223afc0dcecdb6af1d9c",
+    "make_horizon_tables.py": "f2d871f586dd8bfb58ef2bb3604ab7d33ebc87d0dfafab442bdcac00ab377ecc",
+    "make_tables.py": "ca6075b1db2d7e975ec7c85efc818dabbea7e84bc6f801f0fd976335b511555d",
+    "oracle.py": "8284f639157c2376de0660a03e60d9fff31b75f2ea1d263b3fce038c2c7704b5",
+    "prefix.py": "ace6fe8c607172ac92026bd7f0546afbb999138b00b7700425a6b8ee5e06f765",
+    "queries.py": "f5059bc949104c947a95752e0131b920f8ed38459e92fdc493d0a293e8859f1b",
+    "reproduce.py": "a63bcb44bd1313dcc0aa7140ab73ea48a06e886c4e67d91ac32b423a4ba0cece",
+    "reproduce_all.py": "6e07ccaae281e371b46bfa837a98b5e1c28792cafdf964a2b80d94f4fc3267d5",
+    "robust.py": "510756b082b1a36a8c5e98501adf79a49c706eca1feec764a20f4c0402730734",
+    "verify_horizon.py": "ff64c83571d4cd73e0e9b8ecae82b0fb5b55d4497786e03516c19c595ecd9d45",
+    "verify_results.py": "eb17897b69e65b80ef4b2942f255e4719d44bbc5e6edc428afe288cc5d7108c4",
+    "workflow_cost.py": "4321230056c14851112deeb20311720181421c3cae7bca814427027616d1b3fd",
+    "inputs/weighted.jsonl": "bfe380ef1a3ea40b1bd9dca48d7f3f9fe50a42a4bac12744efa8e2da30be3898"
+  },
+  "scope": "single-host offline Python end-to-end costs; no collective/device execution, no new input matrix"
+}

@@ -1,0 +1,366 @@
+{
+  "project": "P042",
+  "title": "Time-Preserving Admission in Drained Matching Epochs",
+  "date": "2026-10-14",
+  "scope": "Owned offline Python arithmetic/scheduling and metadata admission only; no device or third-party target",
+  "runs": {
+    "normal": {
+      "verification": {
+        "retained_checks_complete": true,
+        "fresh_execution": true,
+        "scientific_comparison_complete": true,
+        "elapsed_seconds": 48.875,
+        "resource_fields_expected_to_vary": true,
+        "optimization": 0,
+        "portable_requested": true,
+        "base_environment": {
+          "platform": "Windows-11-10.0.28000-SP0",
+          "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+          "executable": "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+          "optimization": 0,
+          "cpu_affinity": [
+            0
+          ],
+          "address_space_cap_bytes": null,
+          "rss_measurement": "not measured",
+          "scope": "owned offline Python scheduling, not network or GPU execution"
+        },
+        "event_environment": {
+          "platform": "Windows-11-10.0.28000-SP0",
+          "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+          "executable": "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+          "optimization": 0,
+          "cpu_affinity": [
+            0
+          ],
+          "address_space_cap_bytes": null,
+          "rss_measurement": "not measured",
+          "scope": "owned offline Python scheduling, not network or GPU execution"
+        },
+        "meaning": "Completed finite reproduction, not a general proof or a venue acceptance assessment."
+      },
+      "original_rows": 7232,
+      "extension_rows": 7410,
+      "small_assignments": 1373760,
+      "larger_assignments": 1194744,
+      "stress": {
+        "records": 210,
+        "expected": 210,
+        "cpu_seconds": 26.984375,
+        "horizon": {
+          "completed": 180,
+          "incomplete": 30,
+          "cpu_seconds": 9.609375,
+          "raw_candidates_completed": 1280397,
+          "states_completed": 80494
+        },
+        "prefix": {
+          "completed": 174,
+          "incomplete": 36,
+          "cpu_seconds": 16.875,
+          "raw_candidates_completed": 2701611,
+          "states_completed": 81661
+        },
+        "jointly_completed": 174,
+        "horizon_only": 6,
+        "prefix_only": 0,
+        "both_incomplete": 30
+      },
+      "weighted": {
+        "allreduce": {
+          "cases": 120,
+          "strict_somewhere": 0,
+          "max_ratio": "1"
+        },
+        "broadcast": {
+          "cases": 30,
+          "strict_somewhere": 20,
+          "max_ratio": "13/9"
+        },
+        "fork": {
+          "cases": 15,
+          "strict_somewhere": 12,
+          "max_ratio": "41/10"
+        },
+        "pair-exchange": {
+          "cases": 20,
+          "strict_somewhere": 0,
+          "max_ratio": "1"
+        },
+        "random-dag": {
+          "cases": 40,
+          "strict_somewhere": 17,
+          "max_ratio": "23/19"
+        },
+        "total-chain": {
+          "cases": 10,
+          "strict_somewhere": 0,
+          "max_ratio": "1"
+        },
+        "unit-fork": {
+          "cases": 5,
+          "strict_somewhere": 5,
+          "max_ratio": "7/4"
+        }
+      },
+      "workflow_records": 1440,
+      "paired_workflow_runs": 720,
+      "workflow_ratios": {
+        "median": 1.1621446814446628,
+        "minimum": 0.24302334423237776,
+        "maximum": 12.207857263465977,
+        "prefix_faster_pairs": 76
+      },
+      "workflow_stage_totals_ns": {
+        "Horizon": {
+          "input_decode": 9432300,
+          "initialize_and_solve": 970922800,
+          "reconstruct": 37848200,
+          "validate": 355680100,
+          "serialize_decode_replay": 413051500,
+          "deadline_query": 4351300,
+          "total": 1791286200,
+          "cpu_total": 1859375000
+        },
+        "Prefix": {
+          "input_decode": 9245400,
+          "initialize_and_solve": 2885660300,
+          "reconstruct": 37243500,
+          "validate": 370109600,
+          "serialize_decode_replay": 414572200,
+          "deadline_query": 4648900,
+          "total": 3721479900,
+          "cpu_total": 3453125000
+        }
+      },
+      "workflow_certificate_replay_count": 5760,
+      "raw_files": [
+        "normal/base/*.jsonl",
+        "normal/base/certificates/*.json",
+        "normal/event/*.jsonl",
+        "workflow-normal/raw.jsonl"
+      ]
+    },
+    "optimized": {
+      "verification": {
+        "retained_checks_complete": true,
+        "fresh_execution": true,
+        "scientific_comparison_complete": true,
+        "elapsed_seconds": 50.312000000005355,
+        "resource_fields_expected_to_vary": true,
+        "optimization": 1,
+        "portable_requested": true,
+        "base_environment": {
+          "platform": "Windows-11-10.0.28000-SP0",
+          "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+          "executable": "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+          "optimization": 1,
+          "cpu_affinity": [
+            0
+          ],
+          "address_space_cap_bytes": null,
+          "rss_measurement": "not measured",
+          "scope": "owned offline Python scheduling, not network or GPU execution"
+        },
+        "event_environment": {
+          "platform": "Windows-11-10.0.28000-SP0",
+          "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+          "executable": "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+          "optimization": 1,
+          "cpu_affinity": [
+            0
+          ],
+          "address_space_cap_bytes": null,
+          "rss_measurement": "not measured",
+          "scope": "owned offline Python scheduling, not network or GPU execution"
+        },
+        "meaning": "Completed finite reproduction, not a general proof or a venue acceptance assessment."
+      },
+      "original_rows": 7232,
+      "extension_rows": 7410,
+      "small_assignments": 1373760,
+      "larger_assignments": 1194744,
+      "stress": {
+        "records": 210,
+        "expected": 210,
+        "cpu_seconds": 26.96875,
+        "horizon": {
+          "completed": 180,
+          "incomplete": 30,
+          "cpu_seconds": 9.65625,
+          "raw_candidates_completed": 1280397,
+          "states_completed": 80494
+        },
+        "prefix": {
+          "completed": 174,
+          "incomplete": 36,
+          "cpu_seconds": 16.84375,
+          "raw_candidates_completed": 2701611,
+          "states_completed": 81661
+        },
+        "jointly_completed": 174,
+        "horizon_only": 6,
+        "prefix_only": 0,
+        "both_incomplete": 30
+      },
+      "weighted": {
+        "allreduce": {
+          "cases": 120,
+          "strict_somewhere": 0,
+          "max_ratio": "1"
+        },
+        "broadcast": {
+          "cases": 30,
+          "strict_somewhere": 20,
+          "max_ratio": "13/9"
+        },
+        "fork": {
+          "cases": 15,
+          "strict_somewhere": 12,
+          "max_ratio": "41/10"
+        },
+        "pair-exchange": {
+          "cases": 20,
+          "strict_somewhere": 0,
+          "max_ratio": "1"
+        },
+        "random-dag": {
+          "cases": 40,
+          "strict_somewhere": 17,
+          "max_ratio": "23/19"
+        },
+        "total-chain": {
+          "cases": 10,
+          "strict_somewhere": 0,
+          "max_ratio": "1"
+        },
+        "unit-fork": {
+          "cases": 5,
+          "strict_somewhere": 5,
+          "max_ratio": "7/4"
+        }
+      },
+      "workflow_records": 1440,
+      "paired_workflow_runs": 720,
+      "workflow_ratios": {
+        "median": 1.1440828885647965,
+        "minimum": 0.4395831820492339,
+        "maximum": 13.591083734829542,
+        "prefix_faster_pairs": 64
+      },
+      "workflow_stage_totals_ns": {
+        "Horizon": {
+          "input_decode": 9126600,
+          "initialize_and_solve": 959857400,
+          "reconstruct": 36443900,
+          "validate": 354097200,
+          "serialize_decode_replay": 402105100,
+          "deadline_query": 4443400,
+          "total": 1766073600,
+          "cpu_total": 1828125000
+        },
+        "Prefix": {
+          "input_decode": 8813300,
+          "initialize_and_solve": 2889235000,
+          "reconstruct": 46819400,
+          "validate": 355683800,
+          "serialize_decode_replay": 407072100,
+          "deadline_query": 4895500,
+          "total": 3712519100,
+          "cpu_total": 3484375000
+        }
+      },
+      "workflow_certificate_replay_count": 5760,
+      "raw_files": [
+        "optimized/base/*.jsonl",
+        "optimized/base/certificates/*.json",
+        "optimized/event/*.jsonl",
+        "workflow-optimized/raw.jsonl"
+      ]
+    }
+  },
+  "full_campaign_test_methods_at_execution": 96,
+  "final_default_test_methods": 99,
+  "normal_tests": "PASS, no skips",
+  "optimized_tests": "PASS, no skips",
+  "red_controls": "Original -O removed five disagreement/incomplete/policy gates; strict count/service and JSON-alias controls also failed",
+  "source_sha256": {
+    "artifact/campaign_environment.py": "85a22c05c6551dba396d4ab2f57e4b32556416fb6764d556622a12f9ed485b6a",
+    "artifact/checker.py": "8abf3cf296126711465ac198dbf91d7ba4de2f7744332ef59df20c2b91c19203",
+    "artifact/epochs.py": "378d7ac75373cd5bcfe6d2139bf27f070b1ab939e2251507c319b731901ae66f",
+    "artifact/evaluate_horizon.py": "20cc2c54a64f4f4fcd9921ceed69f263ef9c53833cd196ee217b48ac8ef4a7bc",
+    "artifact/generators.py": "6e4ce4d650e9bbbfbddab7c3858030d1049befbdaace4548a0256195829b5fa4",
+    "artifact/horizon.py": "d4e51421c1242b10a2a9cf14fa8ddb2dfc1d794908a7223afc0dcecdb6af1d9c",
+    "artifact/inputs/example.json": "6190a60ed130ee45d05f0a8091ed3486e7f95011143f1c20f0b759eb9b89ebc8",
+    "artifact/inputs/exhaustive.jsonl": "345abd75cb06008213b50357ce392d55b94e67e850badc36a1c40d7bacd1759e",
+    "artifact/inputs/horizon-exhaustive.jsonl": "345abd75cb06008213b50357ce392d55b94e67e850badc36a1c40d7bacd1759e",
+    "artifact/inputs/horizon-oracle.jsonl": "621a9a30a928f97befda8b972d00a3153e09d36685f827822f4ba70259fa7c81",
+    "artifact/inputs/horizon-stress.jsonl": "f508bf39ba37385360c6f2268e5f3b190e573e595de50585a8e5e9aa2150f4bc",
+    "artifact/inputs/horizon-weighted.jsonl": "bfe380ef1a3ea40b1bd9dca48d7f3f9fe50a42a4bac12744efa8e2da30be3898",
+    "artifact/inputs/scale.jsonl": "c6cf06a010dfd4b3e79b677628000c9bbdd521903aae7b85c77eef50a81fce94",
+    "artifact/inputs/weighted.jsonl": "bfe380ef1a3ea40b1bd9dca48d7f3f9fe50a42a4bac12744efa8e2da30be3898",
+    "artifact/make_horizon_tables.py": "f2d871f586dd8bfb58ef2bb3604ab7d33ebc87d0dfafab442bdcac00ab377ecc",
+    "artifact/make_tables.py": "ca6075b1db2d7e975ec7c85efc818dabbea7e84bc6f801f0fd976335b511555d",
+    "artifact/oracle.py": "8284f639157c2376de0660a03e60d9fff31b75f2ea1d263b3fce038c2c7704b5",
+    "artifact/prefix.py": "ace6fe8c607172ac92026bd7f0546afbb999138b00b7700425a6b8ee5e06f765",
+    "artifact/proofs/certificate-format.md": "3321eff3cc5bc0320685d214237ee3cfb24b73c2763f0d8a38a26f22098ecfcf",
+    "artifact/proofs/horizon-normal-form.md": "d3a3eb4268719a348a44449845509b5741e0d63dae9149aa659272cc0c19bfa5",
+    "artifact/proofs/model.md": "806853d16f00591b11db495756b33c25e68de81d630bf177acba7a4c09403062",
+    "artifact/proofs/robust-and-deadlines.md": "b30528beab1d4d15773ba2e3b8a54b4de5e1b8746c677161bc6bd8afa8fb8c01",
+    "artifact/queries.py": "f5059bc949104c947a95752e0131b920f8ed38459e92fdc493d0a293e8859f1b",
+    "artifact/reproduce_all.py": "6e07ccaae281e371b46bfa837a98b5e1c28792cafdf964a2b80d94f4fc3267d5",
+    "artifact/reproduce.py": "a63bcb44bd1313dcc0aa7140ab73ea48a06e886c4e67d91ac32b423a4ba0cece",
+    "artifact/robust.py": "510756b082b1a36a8c5e98501adf79a49c706eca1feec764a20f4c0402730734",
+    "artifact/tests/checker_index_regression.py": "0906dfd92a9b8c42082ca75f5d5570f48d09366fb4594ccf5b1ad8abb03d2c28",
+    "artifact/tests/test_checker_index.py": "930e832a5af592f1fa9821b5c3ba07f8dee98a776de077715466e3679c9ddb8d",
+    "artifact/tests/test_epochs.py": "9a402f48aafa2143f538c603fa2d5117092b5ff5cb13e16a3537c59243ab4b75",
+    "artifact/tests/test_evidence_gates.py": "6729bf7a310976bd51a38da164bd00dc056e2a39162666961d1d3cf2d1de7a1e",
+    "artifact/tests/test_horizon.py": "54e9b53d9e7ace37fd9f6819360e720154d35dd67d7e07b146cccb6772c97e0a",
+    "artifact/tests/test_queries.py": "638218fb2702c83011d19d6c943acb2c2f9cbac14f88b3812773f358eb26caff",
+    "artifact/tests/test_robust.py": "c1d9f508cbdded814eea1fc659efd0c222aa7f1a50ac884b060036b82bc7ea47",
+    "artifact/verify_horizon.py": "ff64c83571d4cd73e0e9b8ecae82b0fb5b55d4497786e03516c19c595ecd9d45",
+    "artifact/verify_results.py": "eb17897b69e65b80ef4b2942f255e4719d44bbc5e6edc428afe288cc5d7108c4",
+    "artifact/verify_workflow.py": "86228a4a83153c5833729c7cf3c6b1600eab4fdf04e5fd5ab3643d498a0074e7",
+    "artifact/workflow_cost.py": "4321230056c14851112deeb20311720181421c3cae7bca814427027616d1b3fd",
+    "paper/main.tex": "ed659ad1d7f8597a4c3da0b30983ace1af5d4371a9d086540e590f3707ed163e",
+    "paper/references.bib": "3c220a420fbf7966f3d3d6c1a818910f29845779c6083d8a0b21f7260f765394",
+    "paper/search-table.tex": "9582e89444132e3127f327f48c9a14b7ca05b2c0f533bd4d5a400bd1d07888f4",
+    "paper/sections/algorithm.tex": "8995549ffa923cda6473f1b8ecab8e4be2611e03403a4d94334d7830f0ee8909",
+    "paper/sections/discussion.tex": "e4bcd44c0bf3e20e4f0859a11708a40b10764d6725b14b03789e101dcbe14aea",
+    "paper/sections/evaluation.tex": "971d26eee665fcee68895feca6a21321a46d077235a4e0d65321bfad324869f3",
+    "paper/sections/horizon.tex": "8fbeb0b55071c4fed829bb05d8ff918d03ceb684dc14481813e176ef1b3fd092",
+    "paper/sections/introduction.tex": "c66b3005d0cbcf80ebdb92f408c56e960ee6d8030ee8f5f4d2ff4e0b59cc1746",
+    "paper/sections/model.tex": "540507bcf53c72be313c9cac6c75eeb12989fba8262e77dab3eb5a5663c5a3f2",
+    "paper/sections/saturation.tex": "7571a8e644aa6f1d5adbd95759732e0b02565855797a361f2dfa84331fb1b268",
+    "paper/supplement.tex": "34047a7475b7ad96a8c76663950c267c43bfffd1772c3cac523d6d9063784f39",
+    "paper/weighted-table.tex": "2b37cebb9d3012c5a5c05ea923eedd7ffe3f34140072af225aad9ae06c2af1fd",
+    "paper/workflow-table.tex": "250880c80211e518afc9d297729912c9dea6a74eeea3973ad0e1c32c365f447c"
+  },
+  "pdfs": {
+    "main": {
+      "path": "paper/main.pdf",
+      "sha256": "6d38cbf7bc1d1db1723513b40c7bc662c93fa82be0ff2829b135b2469d24cdeb",
+      "pages": 13
+    },
+    "supplement": {
+      "path": "paper/supplement.pdf",
+      "sha256": "b6745a1474c0f3bf54d5a541dc2bb9ed17e31183490df0f15a0819bc1f5b633b",
+      "pages": 5
+    }
+  },
+  "numbered_recursive_main_sections": 8,
+  "references": 52,
+  "technical_references": 51,
+  "original_inputs_and_historical_results_unchanged": true,
+  "linux_native_campaign_current": "not run: no WSL distribution; historical Linux records retained",
+  "collective_native_execution": "not available in supplied implementation; no GPU/optical controller claim",
+  "primary_read_scope": [
+    "Eclipse SIGMETRICS 2016 author PDF: full 14 pages including appendix",
+    "Harvest arXiv:2602.09188v1: full 19 pages including appendix"
+  ],
+  "venue_status": "TPDS journal-specific current page inaccessible; IEEE official AI-disclosure rule checked; no submission eligibility certification",
+  "full_close": false,
+  "closed_loop_complete": false,
+  "iteration_loop_complete": false,
+  "main_independent_acceptance": "pending"
+}

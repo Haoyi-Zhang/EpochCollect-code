@@ -1,0 +1,9 @@
+{
+  "records": 1440,
+  "certificate_interpretations": 5760,
+  "independent_deadline_algebra": true,
+  "fresh_frontier_correspondence": true,
+  "stored_source_hashes_match_current": true,
+  "timings_remeasured": false,
+  "scope": "offline evidence replay; no device or proof-assistant validation"
+}

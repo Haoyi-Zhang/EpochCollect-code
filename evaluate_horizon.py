@@ -19,10 +19,17 @@ import generators
 import oracle
 from horizon import Horizon, Limits, SearchLimit, pareto, envelope, normalize
 from prefix import Prefix
+from campaign_environment import configure, peak_rss
 
 ROOT = Path(__file__).resolve().parent
 SMALL = Limits(seconds=30, states=50000, transitions=5000000, matchings=100000)
 STRESS = Limits(seconds=3, states=5000, transitions=200000, matchings=5000)
+
+
+def require(condition, message):
+    """Fail closed on scientific disagreement in normal and optimized Python."""
+    if not condition:
+        raise AssertionError(message)
 
 
 def random_dag(ports, count, density, seed):
@@ -77,13 +84,13 @@ def compare_policies(sel, sat):
             points.add(Fraction(row['hi']))
     ratios = [(cost(sat, x)/cost(sel, x), x) for x in points]
     ratio, where = max(ratios, key=lambda z: (z[0], -z[1]))
-    assert ratio >= 1 and min(sel) == min(sat)
+    require(ratio >= 1 and min(sel) == min(sat), 'policy ordering/count mismatch')
     # With a positive minimum slope both policies have the same asymptotic
     # slope. A zero slope means a one-epoch optimum, common to both policies.
     tail = Fraction(1)
     if min(sel) == 1:
         tail = Fraction(sat[1], sel[1])
-        assert tail == 1
+        require(tail == 1, 'one-epoch null control')
     return {'strict_somewhere': ratio > 1, 'max_ratio': str(max(ratio, tail)),
             'max_at_rho': str(where), 'selective_envelope': es,
             'saturated_envelope': ea, 'breakpoints_checked': len(points)}
@@ -117,18 +124,18 @@ def run_reference(raw):
     expected = pareto(full['selective'])
     h = run_engine(raw, Horizon)
     p = run_engine(raw, Prefix)
-    assert h['status'] == p['status'] == 'complete', raw['case']
-    assert h['frontier'] == p['frontier'] == expected, raw['case']
+    require(h['status'] == p['status'] == 'complete', ('reference search incomplete', raw['case']))
+    require(h['frontier'] == p['frontier'] == expected, ('reference frontier mismatch', raw['case']))
     cert = engine.schedule(1, 'selective')
     normalized = normalize(raw, cert)
-    assert normalized['makespan'] <= cert['makespan']
+    require(normalized['makespan'] <= cert['makespan'], 'normalization dominance')
     result = {'case': raw['case'], 'family': raw['family'], 'tasks': len(raw['tasks']),
               'ports': raw['ports'], 'agreement': True, 'reference_cpu_seconds': reference_time,
               'horizon': h, 'prefix': p,
               'policy': compare_policies(full['selective'], full['saturated'])}
     if raw['case'].startswith('weighted'):
         a = run_engine(raw, Horizon, all_matchings=True)
-        assert a['status'] == 'complete' and a['frontier'] == expected
+        require(a['status'] == 'complete' and a['frontier'] == expected, 'all-matchings ablation mismatch')
         result['all_matchings'] = a
     return result
 
@@ -137,8 +144,8 @@ def run_oracle(raw):
     full, counts = oracle.spectra(raw, max_tasks=6)
     h = run_engine(raw, Horizon)
     p = run_engine(raw, Prefix)
-    assert h['status'] == p['status'] == 'complete'
-    assert h['frontier'] == p['frontier'] == pareto(full['selective'])
+    require(h['status'] == p['status'] == 'complete', 'oracle search incomplete')
+    require(h['frontier'] == p['frontier'] == pareto(full['selective']), 'oracle frontier mismatch')
     return {'case': raw['case'], 'tasks': len(raw['tasks']), 'agreement': True,
             'oracle': counts, 'horizon': h, 'prefix': p}
 
@@ -148,7 +155,7 @@ def run_stress(raw):
     p = run_engine(raw, Prefix, STRESS)
     agree = None
     if h['status'] == p['status'] == 'complete':
-        assert h['frontier'] == p['frontier'], raw['case']
+        require(h['frontier'] == p['frontier'], ('stress frontier mismatch', raw['case']))
         agree = True
     return {'case': raw['case'], 'family': raw['family'], 'shape': raw.get('shape'),
             'ports': raw['ports'], 'chunks': raw.get('chunks'), 'density': raw.get('density'),
@@ -216,19 +223,16 @@ def main():
     ap.add_argument('--phase', choices=['all','exhaustive','weighted','oracle','stress'], default='all')
     ap.add_argument('--seconds', type=float, default=20)
     ap.add_argument('--limit', type=int, default=100000)
+    ap.add_argument('--portable', action='store_true', help='explicit Windows run without a Linux address-space cap')
     args = ap.parse_args()
-    # Imports of inputs(), run_reference() and the retained-result validator do
-    # not execute a Linux campaign or claim its address-space limit.
     try:
-        import resource
-    except ImportError:
-        ap.error('bounded campaign CLI requires Linux resource controls')
+        environment, resource = configure(args.portable)
+    except (ValueError, OSError, RuntimeError) as error:
+        ap.error(str(error))
     if not 0 < args.seconds <= 30 or args.limit < 1:
         ap.error('require seconds in (0,30], limit>=1')
-    if hasattr(os, 'sched_setaffinity'):
-        os.sched_setaffinity(0, {min(os.sched_getaffinity(0))})
-    resource.setrlimit(resource.RLIMIT_AS, (3*1024**3, 3*1024**3))
     out = args.output_dir.resolve(); out.mkdir(parents=True, exist_ok=True)
+    (out/'environment.json').write_text(json.dumps(environment, indent=2)+'\n')
     start = time.monotonic(); processed = 0
     phases = ['exhaustive','weighted','oracle','stress'] if args.phase=='all' else [args.phase]
     for name in phases:
@@ -243,7 +247,7 @@ def main():
             cpu = time.process_time()
             row = run_reference(raw) if name in ('exhaustive','weighted') else run_oracle(raw) if name=='oracle' else run_stress(raw)
             row['cpu_seconds'] = time.process_time()-cpu
-            row['peak_process_rss_kib'] = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+            row['peak_process_rss_kib'] = peak_rss(resource)
             with path.open('a') as f:
                 f.write(exact_json(row)+'\n'); f.flush()
             processed += 1

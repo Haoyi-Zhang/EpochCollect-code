@@ -1,0 +1,10 @@
+{
+  "status": "COMPLETE",
+  "new_instances": 7232,
+  "elapsed_seconds": 7.394923178000006,
+  "progress": {
+    "exhaustive": 6912,
+    "weighted": 240,
+    "scale": 80
+  }
+}

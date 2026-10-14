@@ -23,6 +23,28 @@ The manuscript associates cited results with their publication records. The EJOR
 
 Some public access is through author versions or a mirror of the actual paper, not a publisher landing page. No third-party PDFs, scraped paper text, or unverified redistribution licenses are bundled. The `source_read_scope` field is authoritative: neither abstracts nor selected passages are silently counted as full-paper reading. The detailed final TPDS online submission rules were not readable from the JavaScript-only page and are not asserted as verified.
 
+## Current source-to-result check (2026-10-14)
+
+The current bounded review separately read the complete 14-page author-hosted
+SIGMETRICS 2016 Eclipse text, including its appendix, and the complete 19-page
+Harvest arXiv:2602.09188v1 text, including the topology formulation appendix.
+These are specific source versions, not a certification of all 51 technical
+references or of their final publisher layouts. Primary copies used for the
+private review are not redistributed in this artifact.
+
+Eclipse Section 2.3, Remark 1 permits shortest demand coverage via fixed-window
+throughput; Sections 3.1--3.3 already clip aggregate demand and choose holding
+times, with demand-support breakpoints. Harvest Section 4, Equations (5)--(7)
+and Theorem 1 already use topology interval costs and a count/service recurrence
+over a fixed step word. The present proof obligation is narrower and different:
+whole FIFO-task coverage (main Lemma 2), timetable monotonicity after completed
+ideals expand (Lemma 3), and the taskwise no-later replacement (Theorem 3).
+The shared Prefix baseline has the same inputs and makespan guarantee; the
+independent assignment oracle checks a separate implementation. None of these
+facts establishes priority over all active-schedule specializations. Current
+full-text verification of the Kesselman--Kogan and Sprecher--Kolisch--Drexl
+published articles remains a literature-review boundary, not a claimed new result.
+
 ## Role of calibration
 
 The selected TPDS papers span finite scheduling proofs, communication-cost models, resource contention, measured interconnect behavior, and application-level optimization. This is deliberately broader than the direct optical-scheduling neighbors. Their explanatory patterns inform the manuscript; their device measurements and empirical conclusions are not reused as evidence for this scheduler. The compact matrix in the research plan identifies the lesson, evidence type, and reading/version limitation for each sample. Citation count and sample count are never treated as an acceptance criterion or a substitute for the normal-form proof.

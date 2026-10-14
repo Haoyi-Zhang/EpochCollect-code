@@ -1,0 +1,31 @@
+{
+  "case": "weighted0040",
+  "policy": {
+    "breakpoints_checked": 2,
+    "max_at_rho": "0",
+    "max_ratio": "43/38",
+    "saturated_envelope": [
+      {
+        "epochs": 4,
+        "hi": null,
+        "lo": "0",
+        "service": 43
+      }
+    ],
+    "selective_envelope": [
+      {
+        "epochs": 6,
+        "hi": "3/2",
+        "lo": "0",
+        "service": 38
+      },
+      {
+        "epochs": 4,
+        "hi": null,
+        "lo": "3/2",
+        "service": 41
+      }
+    ],
+    "strict_somewhere": true
+  }
+}

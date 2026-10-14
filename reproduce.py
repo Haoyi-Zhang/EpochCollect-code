@@ -9,10 +9,17 @@ import argparse, csv, json, os, sys, time
 from collections import defaultdict
 from pathlib import Path
 import checker, epochs, generators, oracle
+from campaign_environment import configure, peak_rss
 
 ROOT = Path(__file__).resolve().parent
 RESULTS = ROOT / 'results'
 RHOS = (0, 1, 4, 16)
+
+
+def require(condition, message):
+    """A scientific gate, never removed by Python optimization."""
+    if not condition:
+        raise AssertionError(message)
 
 
 def lower_bound(raw):
@@ -64,8 +71,8 @@ def run_exhaustive(raw):
     engine = epochs.Exact(raw)
     a = engine.solve()
     b, counts = oracle.spectra(raw)
-    assert a == b, ('spectrum mismatch', raw, a, b)
-    assert min(a['selective']) == min(a['saturated']), ('minimum epoch mismatch', raw)
+    require(a == b, ('spectrum mismatch', raw, a, b))
+    require(min(a['selective']) == min(a['saturated']), ('minimum epoch mismatch', raw))
     for rho in (0, 1, 4):
         for mode in a:
             checker.check(raw, engine.schedule(rho, mode))
@@ -76,7 +83,7 @@ def run_exhaustive(raw):
 def run_weighted(raw):
     engine = epochs.Exact(raw)
     spectrum = engine.solve()
-    assert min(spectrum['selective']) == min(spectrum['saturated'])
+    require(min(spectrum['selective']) == min(spectrum['saturated']), 'minimum epoch mismatch')
     costs, robustness, semantic_checks = [], [], 0
     for rho in RHOS:
         certs = {mode: engine.schedule(rho, mode) for mode in ('selective', 'saturated')}
@@ -90,23 +97,23 @@ def run_weighted(raw):
             sem = checker.check_collective(raw, c)
             semantic_checks += int(sem.get('applicable', False))
             row[name] = c['makespan']; row[name + '-epochs'] = len(c['epochs'])
-        assert row['selective'] <= row['saturated'] <= row['saturated-greedy']
-        assert row['selective'] <= row['entry-greedy'] and row['selective'] <= row['singleton']
-        assert row['saturated'] <= (raw['ports'] // 2) * row['selective']
+        require(row['selective'] <= row['saturated'] <= row['saturated-greedy'], 'policy ordering')
+        require(row['selective'] <= row['entry-greedy'] and row['selective'] <= row['singleton'], 'heuristic ordering')
+        require(row['saturated'] <= (raw['ports'] // 2) * row['selective'], 'workload price bound')
         if raw['family'] == 'total-chain':
-            assert row['saturated'] == row['selective']
+            require(row['saturated'] == row['selective'], 'total-chain null control')
         if raw['family'] in ('fork', 'unit-fork'):
             m, length = raw['m'], raw['length']
-            assert row['selective'] == 2*m-1 + length + (2*m-2)*rho
-            assert row['saturated'] == 2*m-1 + m*length + (2*m-2)*rho
+            require(row['selective'] == 2*m-1 + length + (2*m-2)*rho, 'selective construction formula')
+            require(row['saturated'] == 2*m-1 + m*length + (2*m-2)*rho, 'saturated construction formula')
         costs.append(row)
         p = [t.p for t in ts]
         actual = [v + (i % 3) for i, v in enumerate(p)]
         # p_actual <= 3*p, rho_actual <= 2*rho (including rho=0).
         observed = replay(raw, certs['selective'], actual, 2*rho)
-        assert observed <= 3 * certs['selective']['makespan']
+        require(observed <= 3 * certs['selective']['makespan'], 'multiplicative duration bound')
         upper = replay(raw, certs['selective'], [3*v for v in p], 2*rho)
-        assert observed <= upper
+        require(observed <= upper, 'interval duration bound')
         robustness.append({'rho': rho, 'actual_cost': observed, 'interval_upper': upper,
                            'multiplicative_upper': 3*certs['selective']['makespan']})
         if rho == 1:
@@ -136,7 +143,7 @@ def run_scale(raw):
         c = epochs.certificate(ts, masks, rho, mode)
         checker.check(raw, c)
         expected = 2*m-1 + (length if mode=='selective' else m*length) + (2*m-2)*rho
-        assert c['makespan'] == expected
+        require(c['makespan'] == expected, 'scale construction formula')
         costs[mode] = c['makespan']
         certs[mode] = c
     target = RESULTS/'certificates'/f"{raw['case']}.json"
@@ -153,7 +160,7 @@ def summarize():
         rows = [json.loads(x) for x in path.read_text().splitlines()] if path.exists() else []
         result[phase] = {'completed':len(rows), 'expected':expected,
                          'cpu_seconds':sum(r['cpu_seconds'] for r in rows),
-                         'peak_rss_kib':max((r['peak_rss_kib'] for r in rows), default=0)}
+                         'peak_rss_kib':max((r['peak_rss_kib'] for r in rows if r['peak_rss_kib'] is not None), default=None)}
         if phase == 'exhaustive':
             result[phase]['assignments'] = sum(r['oracle']['assignments'] for r in rows)
             result[phase]['valid_assignments'] = sum(r['oracle']['valid_assignments'] for r in rows)
@@ -192,21 +199,17 @@ def main():
     ap.add_argument('--limit',type=int,default=100000,help='maximum new instances this invocation')
     ap.add_argument('--output-dir', type=Path, default=RESULTS,
                     help='result directory; use a new empty directory for a clean reproduction')
+    ap.add_argument('--portable', action='store_true', help='explicit Windows run without a Linux address-space cap')
     args=ap.parse_args()
-    # Only the Linux campaign CLI needs process resource controls. Pure replay,
-    # oracle checks and regression imports must not require the resource module.
     try:
-        import resource
-    except ImportError:
-        ap.error('bounded campaign CLI requires Linux resource controls')
+        environment, resource = configure(args.portable)
+    except (ValueError, OSError, RuntimeError) as error:
+        ap.error(str(error))
     RESULTS=args.output_dir.resolve()
     if not 0 < args.seconds <= 40 or args.limit < 1:
         ap.error('require 0 < seconds <= 40 and a positive instance limit')
-    if hasattr(os,'sched_setaffinity'):
-        os.sched_setaffinity(0,{min(os.sched_getaffinity(0))})
-    cap=3*1024**3
-    resource.setrlimit(resource.RLIMIT_AS,(cap,cap))
     RESULTS.mkdir(parents=True, exist_ok=True)
+    (RESULTS/'environment.json').write_text(json.dumps(environment, indent=2)+'\n')
     if any(not (ROOT/'inputs'/f'{phase}.jsonl').exists() for phase in ('exhaustive','weighted','scale')):
         ap.error('retained scientific input is missing; run generators.py explicitly to regenerate')
     start=time.monotonic(); count=0
@@ -222,7 +225,7 @@ def main():
                 wall=time.monotonic(); cpu=time.process_time()
                 row=func(raw)
                 row.update(cpu_seconds=time.process_time()-cpu, wall_seconds=time.monotonic()-wall,
-                           peak_rss_kib=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
+                           peak_rss_kib=peak_rss(resource))
                 f.write(json.dumps(row,sort_keys=True,separators=(',',':'))+'\n');f.flush()
                 count+=1
     result=summarize()

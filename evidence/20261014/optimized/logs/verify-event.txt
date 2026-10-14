@@ -1,0 +1,22 @@
+{
+  "exhaustive": {
+    "records": 6912,
+    "validated": true,
+    "fresh_agreement": true
+  },
+  "weighted": {
+    "records": 240,
+    "validated": true,
+    "fresh_agreement": true
+  },
+  "oracle": {
+    "records": 48,
+    "validated": true,
+    "fresh_agreement": true
+  },
+  "stress": {
+    "records": 210,
+    "validated": true,
+    "fresh_agreement": true
+  }
+}
