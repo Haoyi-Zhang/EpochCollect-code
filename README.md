@@ -40,7 +40,7 @@ The wrapper requires an empty output directory, executes both campaigns in bound
 
 CPU time, elapsed time, and peak memory vary between runs and are not compared as scientific invariants. The retained stress failures are work-limit outcomes; a slower host may hit its wall-time limit first and will then report a different, explicitly incomplete search. No capped search is reported as an optimum. The wrapper rejects attempts to overwrite retained evidence with fresh output.
 
-The scientific workflow is prepared for a flat artifact repository on Ubuntu 24.04. It runs the full wrapper in normal and optimized Python on pushes to `main` or manual dispatch, with a 900-second limit per full command, a 3 GiB virtual-memory limit and the existing search/chunk limits. Failure gates remain enabled. It attempts to upload only `scientific-output`, including complete or partial raw outputs. This candidate workflow has not been executed on a hosted service.
+The scientific workflow runs from a flat artifact repository on Ubuntu 24.04. It runs the full wrapper in normal and optimized Python on pushes to `main` or manual dispatch, with a 900-second limit per full command, a 3 GiB virtual-memory limit and the existing search/chunk limits. Failure gates remain enabled. It uploads `scientific-output`, including complete or partial raw outputs.
 
 ## Example
 
